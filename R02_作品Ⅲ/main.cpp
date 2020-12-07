@@ -15,12 +15,15 @@
 
 //画像
 #define IMAGE_BACK_PATH		TEXT(".\\IMAGE\\background.jpg")
+#define IMAGE_TITLE_PATH		TEXT(".\\IMAGE\\TITLE.png")
+#define IMAGE_START_PATH		TEXT(".\\IMAGE\\sousa.jpg")
+//プレイヤー画像
 #define IMAGE_PLAYER_PATH		TEXT("GN.png")
 
 #define MUSIC_LOAD_ERR_TITLE	TEXT("音楽読込エラー")
 
 #define MUSIC_PLAY_BGM_PATH		TEXT(".\\MUSIC\\トロピカル.mp3")
-#define MUSIC_TITLE_BGM_PATH		TEXT(".\\MUSIC\\トロピカル.mp3")
+#define MUSIC_TITLE_BGM_PATH		TEXT(".\\MUSIC\\GNOP.mp3")
 #define MUSIC_START_BGM_PATH		TEXT(".\\MUSIC\\トロピカル.mp3")
 #define MUSIC_END_BGM_PATH		TEXT(".\\MUSIC\\トロピカル.mp3")
 
@@ -52,6 +55,12 @@ typedef struct STRUCT_IMAGE {
 	int height;
 }IMAGE;
 
+typedef struct STRUCT_IMAGE_BACK
+{
+	IMAGE image;
+	BOOL IsDraw;
+}IMAGE_BACK;
+
 typedef struct STRUCT_CHARA {
 	IMAGE image;
 	int speed;
@@ -76,6 +85,8 @@ int GameScene;
 
 //背景
 IMAGE ImageBack;
+IMAGE TITLE;
+IMAGE ImageSousa;
 //プレイヤー
 CHARA player;
 //音楽
@@ -335,8 +346,9 @@ VOID MY_TITLE_PROC(VOID)
 VOID MY_TITLE_DRAW(VOID)
 {
 	//DrawBox(10, 10, GAME_WIDTH - 10, GAME_HEIGHT - 10, GetColor(255, 0, 0), TRUE);
-
 	DrawGraph(ImageBack.x, ImageBack.y, ImageBack.handle, TRUE);
+
+	DrawGraph(TITLE.x, TITLE.y, TITLE.handle, TRUE);
 
 	DrawString(0, 0, "タイトル画面(エンターキーを押して下さい)", GetColor(255, 255, 255));
 	return;
@@ -375,7 +387,7 @@ VOID MY_START_DRAW(VOID)
 {
 	//DrawBox(10, 10, GAME_WIDTH - 10, GAME_HEIGHT - 10, GetColor(255, 0, 0), TRUE);
 
-	DrawGraph(ImageBack.x, ImageBack.y, ImageBack.handle, TRUE);
+	DrawGraph(ImageSousa.x, ImageSousa.y, ImageSousa.handle, TRUE);
 
 	DrawString(0, 0, "操作説明画面(Lシフトキーを押して下さい)", GetColor(255, 255, 255));
 	return;
@@ -474,7 +486,7 @@ VOID MY_END_DRAW(VOID)
 
 BOOL MY_LOAD_IMAGE(VOID)
 {
-	//背景画像
+	//タイトル背景画像
 	strcpy_s(ImageBack.path, IMAGE_BACK_PATH);		//パスの設定
 	ImageBack.handle = LoadGraph(ImageBack.path);	//読み込み
 	if (ImageBack.handle == -1)
@@ -486,6 +498,32 @@ BOOL MY_LOAD_IMAGE(VOID)
 	GetGraphSize(ImageBack.handle, &ImageBack.width, &ImageBack.height);	//画像の幅と高さを取得
 	ImageBack.x = GAME_WIDTH / 2 - ImageBack.width / 2;		//左右中央揃え
 	ImageBack.y = GAME_HEIGHT / 2 - ImageBack.height / 2;	//上下中央揃え
+
+	//タイトルロゴ
+	strcpy_s(TITLE.path, IMAGE_TITLE_PATH);		//パスの設定
+	TITLE.handle = LoadGraph(TITLE.path);	//読み込み
+	if (TITLE.handle == -1)
+	{
+		//エラーメッセージ表示
+		MessageBox(GetMainWindowHandle(), IMAGE_TITLE_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
+		return FALSE;
+	}
+	GetGraphSize(TITLE.handle, &TITLE.width, &TITLE.height);	//画像の幅と高さを取得
+	TITLE.x = GAME_WIDTH / 2 - TITLE.width / 2;		//左右中央揃え
+	TITLE.y = GAME_HEIGHT / 2 - TITLE.height / 2;	//上下中央揃え
+
+	//操作画面画像
+	strcpy_s(ImageSousa.path, IMAGE_START_PATH);		//パスの設定
+	ImageSousa.handle = LoadGraph(ImageSousa.path);	//読み込み
+	if (ImageSousa.handle == -1)
+	{
+		//エラーメッセージ表示
+		MessageBox(GetMainWindowHandle(), IMAGE_START_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
+		return FALSE;
+	}
+	GetGraphSize(ImageSousa.handle, &ImageSousa.width, &ImageSousa.height);	//画像の幅と高さを取得
+	ImageSousa.x = GAME_WIDTH / 2 - ImageSousa.width / 2;		//左右中央揃え
+	ImageSousa.y = GAME_HEIGHT / 2 - ImageSousa.height / 2;	//上下中央揃え
 
 	//プレイヤーの画像
 	strcpy_s(player.image.path, IMAGE_PLAYER_PATH);		//パスの設定
@@ -510,6 +548,7 @@ BOOL MY_LOAD_IMAGE(VOID)
 VOID MY_DELETE_IMAGE(VOID)
 {
 	DeleteGraph(ImageBack.handle);
+	DeleteGraph(TITLE.handle);
 	DeleteGraph(player.image.handle);
 
 	return;
