@@ -17,8 +17,12 @@
 #define IMAGE_BACK_PATH		TEXT(".\\IMAGE\\background.jpg")
 #define IMAGE_TITLE_PATH		TEXT(".\\IMAGE\\TITLE.png")
 #define IMAGE_START_PATH		TEXT(".\\IMAGE\\sousa.jpg")
+
 //プレイヤー画像
 #define IMAGE_PLAYER_PATH		TEXT("GN.png")
+
+#define IMAGE_BACK_REV_PATH	TEXT(".\\IMAGE\\background_2.jpg")
+#define IMAGE_BACK_NUM		4
 
 #define MUSIC_LOAD_ERR_TITLE	TEXT("音楽読込エラー")
 
@@ -83,8 +87,10 @@ char OldAllKeyState[256] = { '\0' };
 
 int GameScene;
 
+int Scroll;
+
 //背景
-IMAGE ImageBack;
+IMAGE_BACK ImageBack[IMAGE_BACK_NUM];
 IMAGE TITLE;
 IMAGE ImageSousa;
 //プレイヤー
@@ -339,6 +345,26 @@ VOID MY_TITLE_PROC(VOID)
 		GameScene = GAME_SCENE_START;
 	}
 
+	//背景移動
+	for (int num = 0; num < IMAGE_BACK_NUM; num++)
+	{
+		ImageBack[num].image.x++;
+
+		if (ImageBack[num].IsDraw == FALSE)
+		{
+			if (ImageBack[num].image.x + ImageBack[num].image.width > 0)
+			{
+				ImageBack[num].IsDraw = TRUE;
+			}
+		}
+
+		if (ImageBack[num].image.x > GAME_WIDTH)
+		{
+			ImageBack[num].image.x = 0 - ImageBack[0].image.width * 3;
+			ImageBack[num].IsDraw = FALSE;
+		}
+	}
+
 	return;
 }
 
@@ -346,7 +372,22 @@ VOID MY_TITLE_PROC(VOID)
 VOID MY_TITLE_DRAW(VOID)
 {
 	//DrawBox(10, 10, GAME_WIDTH - 10, GAME_HEIGHT - 10, GetColor(255, 0, 0), TRUE);
-	DrawGraph(ImageBack.x, ImageBack.y, ImageBack.handle, TRUE);
+
+	for (int num = 0; num < IMAGE_BACK_NUM; num++)
+	{
+		//描画できるときは・・・
+		if (ImageBack[num].IsDraw == TRUE)
+		{
+			//背景を描画
+			DrawGraph(ImageBack[num].image.x, ImageBack[num].image.y, ImageBack[num].image.handle, TRUE);
+
+			//背景画像の数字をテスト的に表示
+			DrawFormatString(
+				ImageBack[num].image.x,
+				ImageBack[num].image.y,
+				GetColor(255, 255, 255), "背景画像：%d", num + 1);
+		}
+	}
 
 	DrawGraph(TITLE.x, TITLE.y, TITLE.handle, TRUE);
 
@@ -371,7 +412,7 @@ VOID MY_START_PROC(VOID)
 	}
 
 	//Sキーを押したら、プレイシーンへ移動する
-	if (MY_KEY_DOWN(KEY_INPUT_LSHIFT) == TRUE)
+	if (MY_KEY_DOWN(KEY_INPUT_S) == TRUE)
 	{
 		if (CheckSoundMem(START_BGM.handle) != 0)
 		{
@@ -389,7 +430,7 @@ VOID MY_START_DRAW(VOID)
 
 	DrawGraph(ImageSousa.x, ImageSousa.y, ImageSousa.handle, TRUE);
 
-	DrawString(0, 0, "操作説明画面(Lシフトキーを押して下さい)", GetColor(255, 255, 255));
+	DrawString(0, 0, "操作説明画面(Sキーを押して下さい)", GetColor(255, 255, 255));
 	return;
 }
 
@@ -443,6 +484,53 @@ VOID MY_PLAY_DRAW(VOID)
 		player.image.x, player.image.y,
 		player.image.x + player.image.width * 2, player.image.y + player.image.height * 2,
 		player.image.handle, TRUE);
+
+	/*	for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+		{
+			for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+			{
+
+				if (player.CenterX > (GAME_WIDTH / 2) && player.CenterX <= (GAME_MAP_YOKO_MAX * mapChip.width) - (GAME_WIDTH / 2))
+				{
+					if (player.CenterX - (GAME_WIDTH / 2) - mapChip.width <= map[player][tate][yoko].x &&
+						map[player][tate][yoko].x <= player.CenterX + (GAME_WIDTH / 2) &&
+						0 <= map[player][tate][yoko].y &&
+						map[player][tate][yoko].y < GAME_HEIGHT + mapChip.height)
+					{
+						DrawGraph(
+							map[player][tate][yoko].x - (player.CenterX - (GAME_WIDTH / 2)),
+							map[player][tate][yoko].y,
+							mapChip.handle[map[player][tate][yoko].kind],
+							TRUE);
+						DrawRotaGraph(player.image.x - (player.CenterX - (GAME_WIDTH / 2)) + player.image.width / 2, player.image.y + player.image.height / 2, 1.0, player.Muki / 18 * M_PI, player.image.handle, TRUE);
+					}
+				}
+				else if (player.CenterX > (GAME_MAP_YOKO_MAX * mapChip.width) - (GAME_WIDTH / 2))
+				{
+					if ((GAME_MAP_YOKO_MAX)*mapChip.width - GAME_WIDTH - mapChip.width <= map[player][tate][yoko].x &&
+						map[player][tate][yoko].x <= (GAME_MAP_YOKO_MAX + 1) * mapChip.width &&
+						0 <= map[player][tate][yoko].y &&
+						map[player][tate][yoko].y < GAME_HEIGHT + mapChip.height)
+					{
+						DrawGraph(
+							map[player][tate][yoko].x - (GAME_MAP_YOKO_MAX * mapChip.width - GAME_WIDTH),
+							map[player][tate][yoko].y,
+							mapChip.handle[map[player][tate][yoko].kind],
+							TRUE);
+						DrawRotaGraph(player.image.x - (GAME_MAP_YOKO_MAX * mapChip.width - GAME_WIDTH) + player.image.width / 2, player.image.y + player.image.height / 2, 1.0, player.Muki / 18 * M_PI, player.image.handle, TRUE);
+					}
+				}
+				else
+				{
+					DrawGraph(
+						map[player][tate][yoko].x,
+						map[player][tate][yoko].y,
+						mapChip.handle[map[player][tate][yoko].kind],
+						TRUE);
+					DrawRotaGraph(player.image.x + player.image.width / 2, player.image.y + player.image.height / 2, 1.0, player.Muki / 18 * M_PI, player.image.handle, TRUE);
+				}
+			}
+		}*/
 	return;
 }
 
@@ -486,18 +574,37 @@ VOID MY_END_DRAW(VOID)
 
 BOOL MY_LOAD_IMAGE(VOID)
 {
-	//タイトル背景画像
-	strcpy_s(ImageBack.path, IMAGE_BACK_PATH);		//パスの設定
-	ImageBack.handle = LoadGraph(ImageBack.path);	//読み込み
-	if (ImageBack.handle == -1)
+	strcpy_s(ImageBack[0].image.path, IMAGE_BACK_PATH);
+	strcpy_s(ImageBack[1].image.path, IMAGE_BACK_REV_PATH);
+	strcpy_s(ImageBack[2].image.path, IMAGE_BACK_PATH);
+	strcpy_s(ImageBack[3].image.path, IMAGE_BACK_REV_PATH);
+
+	for (int num = 0; num < IMAGE_BACK_NUM; num++)
 	{
-		//エラーメッセージ表示
-		MessageBox(GetMainWindowHandle(), IMAGE_BACK_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
-		return FALSE;
+		ImageBack[num].image.handle = LoadGraph(ImageBack[num].image.path);
+		if (ImageBack[num].image.handle == -1)
+		{
+			MessageBox(GetMainWindowHandle(), IMAGE_BACK_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
+			return FALSE;
+		}
+		GetGraphSize(ImageBack[num].image.handle, &ImageBack[num].image.width, &ImageBack[num].image.height);
 	}
-	GetGraphSize(ImageBack.handle, &ImageBack.width, &ImageBack.height);	//画像の幅と高さを取得
-	ImageBack.x = GAME_WIDTH / 2 - ImageBack.width / 2;		//左右中央揃え
-	ImageBack.y = GAME_HEIGHT / 2 - ImageBack.height / 2;	//上下中央揃え
+
+	ImageBack[0].image.x = 0 - ImageBack[0].image.width * 0;
+	ImageBack[0].image.y = GAME_HEIGHT / 2 - ImageBack[0].image.height / 2;
+	ImageBack[0].IsDraw = FALSE;
+
+	ImageBack[1].image.x = 0 - ImageBack[0].image.width * 1;
+	ImageBack[1].image.y = GAME_HEIGHT / 2 - ImageBack[1].image.height / 2;
+	ImageBack[1].IsDraw = FALSE;
+
+	ImageBack[2].image.x = 0 - ImageBack[0].image.width * 2;
+	ImageBack[2].image.y = GAME_HEIGHT / 2 - ImageBack[0].image.height / 2;
+	ImageBack[2].IsDraw = FALSE;
+
+	ImageBack[3].image.x = 0 - ImageBack[0].image.width * 3;
+	ImageBack[3].image.y = GAME_HEIGHT / 2 - ImageBack[0].image.height / 2;
+	ImageBack[3].IsDraw = FALSE;
 
 	//タイトルロゴ
 	strcpy_s(TITLE.path, IMAGE_TITLE_PATH);		//パスの設定
@@ -547,7 +654,11 @@ BOOL MY_LOAD_IMAGE(VOID)
 //画像をまとめて削除する関数
 VOID MY_DELETE_IMAGE(VOID)
 {
-	DeleteGraph(ImageBack.handle);
+	for (int num = 0; num < IMAGE_BACK_NUM; num++)
+	{
+		DeleteGraph(ImageBack[0].image.handle);
+	}
+
 	DeleteGraph(TITLE.handle);
 	DeleteGraph(player.image.handle);
 
@@ -577,12 +688,12 @@ BOOL MY_LOAD_MUSIC(VOID)
 	}
 
 	//操作画面背景音楽
-	strcpy_s(START_BGM.path, MUSIC_TITLE_BGM_PATH);			//パスの設定
+	strcpy_s(START_BGM.path, MUSIC_START_BGM_PATH);			//パスの設定
 	START_BGM.handle = LoadSoundMem(START_BGM.path);		//読み込み
 	if (START_BGM.handle == -1)
 	{
 		//エラーメッセージ表示
-		MessageBox(GetMainWindowHandle(), MUSIC_TITLE_BGM_PATH, MUSIC_LOAD_ERR_TITLE, MB_OK);
+		MessageBox(GetMainWindowHandle(), MUSIC_START_BGM_PATH, MUSIC_LOAD_ERR_TITLE, MB_OK);
 		return FALSE;
 	}
 
