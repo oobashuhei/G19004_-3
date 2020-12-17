@@ -2,7 +2,7 @@
 #include "resouce.h"
 
 #define GAME_WIDTH  960
-#define GAME_HEIGHT 570
+#define GAME_HEIGHT 560
 
 #define GAME_COLOR  32 
 
@@ -26,22 +26,31 @@
 #define IMAGE_LOAD_ERR_TITLE   TEXT("画像読み込みエラー")
 
 #define IMAGE_BACK_PATH        TEXT(".\\IMAGE\\background.jpg")
-#define IMAGE_PLAYER_PATH      TEXT(".\\IMAGE\\GN.png")
+#define IMAGE_PLAYER_PATH      TEXT(".\\IMAGE\\Dornuts.png")
 
 #define IMAGE_ENEMY_PATH       TEXT(".\\IMAGE\\google.png")
 
+//タイトルやプレイ画面の背景
 #define IMAGE_TITLE_BK_PATH       TEXT(".\\IMAGE\\background.jpg")
+//タイトルロゴ
 #define IMAGE_TITLE_ROGO_PATH     TEXT(".\\IMAGE\\TITLE.png")
-//#define IMAGE_TITLE_ROGO_ROTA     0.005  
-//#define IMAGE_TITLE_ROGO_ROTA_MAX 1.0
-//#define IMAGE_TITLE_ROGO_X_SPEED  1
+#define IMAGE_TITLE_ROGO_ROTA     0.005  
+#define IMAGE_TITLE_ROGO_ROTA_MAX 1.0
+#define IMAGE_TITLE_ROGO_X_SPEED  1
+//点滅
+#define IMAGE_TITLE_PATH		TEXT(".\\IMAGE\\title_start.png")
+#define IMAGE_TITLE_CNT		1
+#define IMAGE_TITLE_CNT_MAX	30
 
+//スタート画面背景
 #define IMAGE_START_PATH		TEXT(".\\IMAGE\\sousa.png")
 
+//クリア画像
 #define IMAGE_END_COMP_PATH       TEXT(".\\IMAGE\\COMP.jpg")
 #define IMAGE_END_COMP_CNT        1
 #define IMAGE_END_COMP_CNT_MAX    30
 
+//失敗画像
 #define IMAGE_END_FAIL_PATH       TEXT(".\\IMAGE\\FAIL.png")
 #define IMAGE_END_FAIL_CNT        1
 #define IMAGE_END_FAIL_CNT_MAX    30
@@ -88,8 +97,8 @@ enum GAME_MAP_KIND
 	t = 0,
 	k = 2,
 	g = 3,
-	s = 5,
-	e = 4
+	s = 10,
+	e = 5
 };
 
 enum GAME_SCENE {
@@ -269,7 +278,7 @@ MUSIC BGM_FAIL;
 GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
 	k,k,k,k,k,k,k,k,k,k,k,g,k,k,k,
 	k,t,t,t,e,t,t,t,k,t,t,t,t,e,k,
-	k,t,t,t,t,t,k,t,t,t,e,t,k,t,k,
+	k,t,t,t,t,t,k,t,t,e,k,k,k,t,k,
 	k,t,e,t,t,t,k,t,t,k,t,t,k,t,k,
 	k,k,t,t,t,k,k,t,k,t,k,t,t,t,k,
 	k,t,t,t,e,t,k,t,k,t,k,t,t,t,k,
@@ -687,8 +696,10 @@ VOID MY_TITLE_PROC(VOID)
 		PlaySoundMem(BGM_TITLE.handle, DX_PLAYTYPE_LOOP);
 	}
 
+	//エンターキーで操作画面
 	if (MY_KEY_DOWN(KEY_INPUT_RETURN) == TRUE)
 	{
+		//音が鳴ってなかったらBGMを流す
 		if (CheckSoundMem(BGM_TITLE.handle) != 0)
 		{
 			StopSoundMem(BGM_TITLE.handle);
@@ -696,6 +707,7 @@ VOID MY_TITLE_PROC(VOID)
 		GameScene = GAME_SCENE_START;
 	}
 
+	//Y軸に背景画像をスライドさせていく
 	for (int num = 0; num < IMAGE_BACK_NUM; num++)
 	{
 		ImageBack[num].image.x++;
@@ -715,6 +727,39 @@ VOID MY_TITLE_PROC(VOID)
 		}
 	}
 
+	//タイトルロゴを拡大
+	if (ImageTitleROGO.rate < ImageTitleROGO.rateMAX)
+	{
+		ImageTitleROGO.rate += IMAGE_TITLE_ROGO_ROTA;
+	}
+
+	//タイトルロゴを移動
+	if (ImageTitleROGO.image.x < GAME_WIDTH / 2)
+	{
+		ImageTitleROGO.image.x += IMAGE_TITLE_ROGO_X_SPEED;
+	}
+	else
+	{
+		//スタートを点滅
+		if (ImageTitleSTART.Cnt < ImageTitleSTART.CntMAX)
+		{
+			ImageTitleSTART.Cnt += IMAGE_TITLE_CNT;
+		}
+		else
+		{
+			//描画する/しないを決める
+			if (ImageTitleSTART.IsDraw == FALSE)
+			{
+				ImageTitleSTART.IsDraw = TRUE;
+			}
+			else if (ImageTitleSTART.IsDraw == TRUE)
+			{
+				ImageTitleSTART.IsDraw = FALSE;
+			}
+			ImageTitleSTART.Cnt = 0;
+		}
+	}
+
 	return;
 }
 
@@ -726,6 +771,20 @@ VOID MY_TITLE_DRAW(VOID)
 		{
 			DrawGraph(ImageBack[num].image.x, ImageBack[num].image.y, ImageBack[num].image.handle, TRUE);
 		}
+	}
+
+	//タイトルロゴを回転しながら描画
+	DrawRotaGraph(
+		ImageTitleROGO.image.x, ImageTitleROGO.image.y,	//画像の座標
+		ImageTitleROGO.rate,							//画像の拡大率
+		ImageTitleROGO.angle,							//画像の回転率
+		ImageTitleROGO.image.handle, TRUE);
+
+	//点滅
+	if (ImageTitleSTART.IsDraw == TRUE)
+	{
+		//タイトルスタートの描画
+		DrawGraph(ImageTitleSTART.image.x, ImageTitleSTART.image.y, ImageTitleSTART.image.handle, TRUE);
 	}
 
 	DrawString(0, 0, "スタート画面(エンターキーを押して下さい)", GetColor(255, 255, 255));
@@ -1312,13 +1371,28 @@ BOOL MY_LOAD_IMAGE(VOID)
 		MessageBox(GetMainWindowHandle(), IMAGE_TITLE_ROGO_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
 		return FALSE;
 	}
-	//GetGraphSize(ImageTitleROGO.image.handle, &ImageTitleROGO.image.width, &ImageTitleROGO.image.height);
-	//ImageTitleROGO.image.x = 230;
-	//ImageTitleROGO.image.y = GAME_HEIGHT / 2;
-	//ImageTitleROGO.angle = DX_PI * 2;
-	//ImageTitleROGO.angleMAX = DX_PI * 2;
-	//ImageTitleROGO.rate = 0.0;
-	//ImageTitleROGO.rateMAX = IMAGE_TITLE_ROGO_ROTA_MAX;
+	GetGraphSize(ImageTitleROGO.image.handle, &ImageTitleROGO.image.width, &ImageTitleROGO.image.height);
+	ImageTitleROGO.image.x = 230;
+	ImageTitleROGO.image.y = GAME_HEIGHT / 2;
+	ImageTitleROGO.angle = DX_PI * 2;
+	ImageTitleROGO.angleMAX = DX_PI * 2;
+	ImageTitleROGO.rate = 0.0;
+	ImageTitleROGO.rateMAX = IMAGE_TITLE_ROGO_ROTA_MAX;
+
+	strcpy_s(ImageTitleSTART.image.path, IMAGE_TITLE_PATH);					//パスの設定
+	ImageTitleSTART.image.handle = LoadGraph(ImageTitleSTART.image.path);			//読み込み
+	if (ImageTitleSTART.image.handle == -1)
+	{
+		//エラーメッセージ表示
+		MessageBox(GetMainWindowHandle(), IMAGE_TITLE_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
+		return FALSE;
+	}
+	GetGraphSize(ImageTitleSTART.image.handle, &ImageTitleSTART.image.width, &ImageTitleSTART.image.height);	//画像の幅と高さを取得
+	ImageTitleSTART.image.x = GAME_WIDTH / 2 - ImageTitleSTART.image.width / 2;					//左右中央揃え
+	ImageTitleSTART.image.y = ImageTitleROGO.image.y + ImageTitleROGO.image.height / 2 + 10;	//ロゴの下に表示
+	ImageTitleSTART.Cnt = 0.0;								//カウンタ
+	ImageTitleSTART.CntMAX = IMAGE_TITLE_CNT_MAX;		//カウンタMAX
+	ImageTitleSTART.IsDraw = FALSE;							//描画させない
 
 	//スタート画面画像
 	strcpy_s(ImageStart.path, IMAGE_START_PATH);
