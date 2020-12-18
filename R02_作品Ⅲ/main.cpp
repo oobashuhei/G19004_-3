@@ -278,9 +278,9 @@ MUSIC BGM_FAIL;
 GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
 	k,k,k,k,k,k,k,k,k,k,k,g,k,k,k,
 	k,t,t,t,e,t,t,t,k,t,t,t,t,e,k,
-	k,t,t,t,t,t,k,t,t,e,k,k,k,t,k,
+	k,t,t,t,k,k,k,t,t,e,k,k,k,t,k,
 	k,t,e,t,t,t,k,t,t,k,t,t,k,t,k,
-	k,k,t,t,t,k,k,t,k,t,k,t,t,t,k,
+	k,k,k,t,t,t,k,t,k,t,k,t,t,t,k,
 	k,t,t,t,e,t,k,t,k,t,k,t,t,t,k,
 	k,t,t,e,k,k,t,t,t,t,t,t,e,t,k,
 	k,s,k,k,t,t,t,k,t,t,t,t,t,k,k,
