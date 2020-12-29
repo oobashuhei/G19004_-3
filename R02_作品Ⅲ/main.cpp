@@ -32,11 +32,13 @@
 
 //タイトルやプレイ画面の背景
 #define IMAGE_TITLE_BK_PATH       TEXT(".\\IMAGE\\background.jpg")
+
 //タイトルロゴ
 #define IMAGE_TITLE_ROGO_PATH     TEXT(".\\IMAGE\\TITLE.png")
 #define IMAGE_TITLE_ROGO_ROTA     0.005  
 #define IMAGE_TITLE_ROGO_ROTA_MAX 1.0
 #define IMAGE_TITLE_ROGO_X_SPEED  1
+
 //点滅
 #define IMAGE_TITLE_PATH		TEXT(".\\IMAGE\\title_start.png")
 #define IMAGE_TITLE_CNT		1
@@ -44,6 +46,11 @@
 
 //スタート画面背景
 #define IMAGE_START_PATH		TEXT(".\\IMAGE\\sousa.png")
+
+//点滅
+#define IMAGE_START_ROGO_PATH		TEXT(".\\IMAGE\\title_start.png")
+#define IMAGE_TITLE_CNT		1
+#define IMAGE_TITLE_CNT_MAX	30
 
 //クリア画像
 #define IMAGE_END_COMP_PATH       TEXT(".\\IMAGE\\COMP.jpg")
@@ -62,9 +69,9 @@
 
 #define MUSIC_PLAY_BGM_PATH         TEXT(".\\MUSIC\\トロピカル.mp3")
 
-#define MUSIC_START_BGM_PATH        TEXT(".\\MUSIC\\トロピカル.mp3")
+#define MUSIC_START_BGM_PATH        TEXT(".\\MUSIC\\pops_up_the_mind_wings.mp3")
 
-#define MUSIC_BGM_TITLE_PATH        TEXT(".\\MUSIC\\トロピカル.mp3")
+#define MUSIC_BGM_TITLE_PATH        TEXT(".\\MUSIC\\Rising_sun.mp3")
 #define MUSIC_BGM_COMP_PATH         TEXT(".\\MUSIC\\トロピカル.mp3")
 #define MUSIC_BGM_FAIL_PATH         TEXT(".\\MUSIC\\トロピカル.mp3")
 
@@ -258,6 +265,7 @@ IMAGE ImageTitleBk;
 IMAGE ImageStart;
 IMAGE_ROTA ImageTitleROGO;
 IMAGE_BLINK ImageTitleSTART;
+IMAGE_BLINK ImageStartSTART;
 
 IMAGE_BLINK ImageEndCOMP;
 IMAGE_BLINK ImageEndFAIL;
@@ -850,6 +858,25 @@ VOID MY_START_PROC(VOID)
 
 	}
 
+	//スタートを点滅
+	if (ImageStartSTART.Cnt < ImageStartSTART.CntMAX)
+	{
+		ImageStartSTART.Cnt += IMAGE_TITLE_CNT;
+	}
+	else
+	{
+		//描画する/しないを決める
+		if (ImageStartSTART.IsDraw == FALSE)
+		{
+			ImageStartSTART.IsDraw = TRUE;
+		}
+		else if (ImageStartSTART.IsDraw == TRUE)
+		{
+			ImageStartSTART.IsDraw = FALSE;
+		}
+		ImageStartSTART.Cnt = 0;
+	}
+
 
 	//if (ImageTitleROGO.rate < ImageTitleROGO.rateMAX)
 	//{
@@ -874,9 +901,9 @@ VOID MY_START_DRAW(VOID)
 	//	ImageTitleROGO.angle,
 	//	ImageTitleROGO.image.handle, TRUE);
 
-	if (ImageTitleSTART.IsDraw == TRUE)
+	if (ImageStartSTART.IsDraw == TRUE)
 	{
-		DrawGraph(ImageTitleSTART.image.x, ImageTitleSTART.image.y, ImageTitleSTART.image.handle, TRUE);
+		DrawGraph(ImageStartSTART.image.x, ImageStartSTART.image.y, ImageStartSTART.image.handle, TRUE);
 	}
 
 	DrawString(0, 0, "スタート画面(Sキーを押してください)", GetColor(255, 255, 255));
@@ -1405,6 +1432,21 @@ BOOL MY_LOAD_IMAGE(VOID)
 	GetGraphSize(ImageStart.handle, &ImageStart.width, &ImageStart.height);
 	ImageStart.x = GAME_WIDTH / 2 - ImageStart.width / 2;
 	ImageStart.y = GAME_HEIGHT / 2 - ImageStart.height / 2;
+
+	strcpy_s(ImageStartSTART.image.path, IMAGE_START_ROGO_PATH);					//パスの設定
+	ImageStartSTART.image.handle = LoadGraph(ImageStartSTART.image.path);		//読み込み
+	if (ImageStartSTART.image.handle == -1)
+	{
+		//エラーメッセージ表示
+		MessageBox(GetMainWindowHandle(), IMAGE_START_ROGO_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
+		return FALSE;
+	}
+	GetGraphSize(ImageStartSTART.image.handle, &ImageStartSTART.image.width, &ImageStartSTART.image.height);	//画像の幅と高さを取得
+	ImageStartSTART.image.x = GAME_WIDTH / 2 - ImageStartSTART.image.width / 2;							//左右中央揃え
+	ImageStartSTART.image.y = ImageTitleROGO.image.y + ImageTitleROGO.image.height / 2 + 10;				//ロゴの下に表示
+	ImageStartSTART.Cnt = 0.0;								//カウンタ
+	ImageStartSTART.CntMAX = IMAGE_TITLE_CNT_MAX;			//カウンタMAX
+	ImageStartSTART.IsDraw = FALSE;						//描画させない
 
 	//成功画像
 	strcpy_s(ImageEndCOMP.image.path, IMAGE_END_COMP_PATH);
