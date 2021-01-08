@@ -48,7 +48,7 @@
 #define IMAGE_START_PATH		TEXT(".\\IMAGE\\sousa.png")
 
 //“_–Å
-#define IMAGE_START_ROGO_PATH		TEXT(".\\IMAGE\\title_start.png")
+#define IMAGE_START_ROGO_PATH		TEXT(".\\IMAGE\\sousa_start.png")
 #define IMAGE_TITLE_CNT		1
 #define IMAGE_TITLE_CNT_MAX	30
 
