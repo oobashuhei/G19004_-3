@@ -1,4 +1,4 @@
 #include "resouce.h"
 
-#define IDI_ICON1	"GN.ico"
+IDI_ICON1 ICON "Dornuts.ico"
 
