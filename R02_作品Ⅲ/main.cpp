@@ -28,7 +28,7 @@
 #define IMAGE_BACK_PATH        TEXT(".\\IMAGE\\background.jpg")
 #define IMAGE_PLAYER_PATH      TEXT(".\\IMAGE\\Dornuts.png")
 
-#define IMAGE_ENEMY_PATH       TEXT(".\\IMAGE\\google.png")
+#define IMAGE_ENEMY_PATH       TEXT(".\\IMAGE\\enemy.png")
 
 //タイトルやプレイ画面の背景
 #define IMAGE_TITLE_BK_PATH       TEXT(".\\IMAGE\\background.jpg")
@@ -78,7 +78,7 @@
 #define ENEMY_MAX              10
 
 #define GAME_MAP_TATE_MAX      9
-#define GAME_MAP_YOKO_MAX      15
+#define GAME_MAP_YOKO_MAX      20
 #define GAME_MAP_KIND_MAX      3
 
 #define GAME_MAP_PATH          TEXT(".\\MAP\\map.png")
@@ -97,6 +97,9 @@
 
 #define MOUSE_R_CLICK_TITLE    TEXT("ゲーム中断")
 #define MOUSE_R_CLICK_CAPTION  TEXT("ゲームを中断し、タイトル画面に戻りますか？")
+
+#define JUMP_FRAME	60
+#define JUMP_POWER	8
 
 enum GAME_MAP_KIND
 {
@@ -186,6 +189,12 @@ typedef struct STRUCT_CHARA
 	int CenterX;
 	int CenterY;
 
+	BOOL IsJump;
+	int JumpPowerMax;
+
+	int JumpTimeCnt;
+	int BeforeJumpY;
+
 	RECT coll;
 	iPOINT collBeforePt;
 
@@ -266,6 +275,8 @@ int GameScene;
 int GameEndkind;
 RECT GoalRect = { -1,-1,-1,-1 };
 
+float yadd = 0.0f;
+
 //IMAGE ImageBack;
 
 IMAGE_BACK ImageBack[IMAGE_BACK_NUM];
@@ -296,40 +307,40 @@ GAME_STAGE GameStage;
 
 
 GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-	k,k,k,k,k,k,k,k,k,k,k,g,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,k,
-	k,t,t,t,k,k,k,t,t,e,k,k,k,t,k,
-	k,t,e,t,t,t,k,t,t,k,t,t,k,t,k,
-	k,k,k,t,t,t,k,t,k,t,k,t,t,t,k,
-	k,t,t,t,e,t,k,t,k,t,k,t,t,t,k,
-	k,t,t,e,k,k,t,t,t,t,t,t,e,t,k,
-	k,s,k,k,t,t,t,k,t,t,t,t,t,k,k,
-	k,k,t,t,t,t,t,t,k,k,k,k,k,k,k
+	t,t,t,t,t,t,t,t,t,t,t,g,t,t,t,t,t,t,t,t,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,
+	k,t,t,t,k,k,k,t,t,e,k,k,k,t,k,t,t,t,t,t,
+	k,t,e,t,t,t,k,t,t,k,t,t,k,t,k,t,t,t,t,t,
+	k,k,k,t,t,t,k,t,k,t,k,t,t,t,k,t,t,t,t,t,
+	k,t,t,t,e,t,k,t,k,t,k,t,t,t,k,t,t,t,t,t,
+	k,t,t,e,k,k,t,t,t,t,t,t,e,t,k,t,t,t,t,t,
+	k,s,k,k,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,
+	k,k,t,t,t,t,t,t,k,k,k,k,k,k,k,t,t,t,t,t
 };
 
-GAME_MAP_KIND mapData_2[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-	w,w,w,w,w,w,w,w,w,w,w,s,w,w,w,
-	w,t,t,t,t,t,t,t,t,t,t,t,t,t,w,
-	w,t,t,t,w,w,w,t,t,e,w,w,w,t,w,
-	w,t,e,t,t,t,w,t,t,w,t,t,w,t,w,
-	w,w,w,t,t,t,w,t,w,w,w,t,t,t,w,
-	w,t,t,t,e,t,w,t,w,t,w,t,t,t,w,
-	w,t,t,e,w,w,t,t,t,t,t,t,e,t,w,
-	w,g,w,w,t,t,t,w,t,t,t,t,t,w,w,
-	w,w,t,t,t,t,t,t,w,w,w,w,w,w,w
-};
+//GAME_MAP_KIND mapData_2[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
+//	w,w,w,w,w,w,w,w,w,w,w,s,w,w,w,
+//	w,t,t,t,t,t,t,t,t,t,t,t,t,t,w,
+//	w,t,t,t,w,w,w,t,t,e,w,w,w,t,w,
+//	t,t,e,t,t,t,w,t,t,w,t,t,w,t,w,
+//	w,w,w,t,t,t,w,t,w,w,w,t,t,t,w,
+//	w,t,t,t,e,t,w,t,w,t,w,t,t,t,w,
+//	w,t,t,e,w,w,t,t,t,t,t,t,e,t,w,
+//	w,g,w,w,t,t,t,w,t,t,t,t,t,w,w,
+//	w,w,t,t,t,t,t,t,w,w,w,w,w,w,w
+//};
 
-GAME_MAP_KIND mapData_3[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-	k,k,k,k,k,k,k,k,k,k,k,g,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,k,
-	k,t,t,t,k,k,k,t,t,e,k,k,k,t,k,
-	k,t,e,t,t,t,k,t,t,k,t,t,k,t,k,
-	k,k,k,t,t,t,k,t,k,t,k,t,t,t,k,
-	k,t,t,t,e,t,k,t,k,t,k,t,t,t,k,
-	k,t,t,e,k,k,t,t,t,t,t,t,e,t,k,
-	k,s,k,k,t,t,t,k,t,t,t,t,t,k,k,
-	k,k,t,t,t,t,t,t,k,k,k,k,k,k,k
-};
+//GAME_MAP_KIND mapData_3[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
+//	k,k,k,k,k,k,k,k,k,k,k,g,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,k,
+//	k,t,t,t,k,k,k,t,t,e,k,k,k,t,k,
+//	k,t,e,t,t,t,k,t,t,k,t,t,k,t,k,
+//	k,k,k,t,t,t,k,t,k,t,k,t,t,t,k,
+//	k,t,t,t,e,t,k,t,k,t,k,t,t,t,k,
+//	k,t,t,e,k,k,t,t,t,t,t,t,e,t,k,
+//	k,s,k,k,t,t,t,k,t,t,t,t,t,k,k,
+//	k,k,t,t,t,t,t,t,k,k,k,k,k,k,k
+//};
 
 GAME_MAP_KIND mapDataInit[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX];
 
@@ -392,6 +403,8 @@ VOID MY_DELETE_MUSIC(VOID);
 
 BOOL MY_CHECK_MAP1_PLAYER_COLL(RECT);
 BOOL MY_CHECK_RECT_COLL(RECT, RECT);
+
+VOID MY_PLEY_MOVE_JUMP(VOID);	//ジャンプ処理
 
 int spHandle;
 int spX;
@@ -503,13 +516,13 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpCmdLine
 			MY_PLAY();
 			break;
 
-		//case GAME_SCENE_PLAY_2:
-		//	MY_PLAY_2();
-		//	break;
+			//case GAME_SCENE_PLAY_2:
+			//	MY_PLAY_2();
+			//	break;
 
-		//case GAME_SCENE_PLAY_3:
-		//	MY_PLAY_3();
-		//	break;
+			//case GAME_SCENE_PLAY_3:
+			//	MY_PLAY_3();
+			//	break;
 
 		case GAME_SCENE_END:
 			MY_END();
@@ -978,7 +991,6 @@ VOID MY_PLAY(VOID)
 
 VOID MY_PLAY_PROC(VOID)
 {
-
 	if (CheckSoundMem(PLAY_BGM.handle) == 0)
 	{
 		ChangeVolumeSoundMem(255 * 30 / 100, PLAY_BGM.handle);
@@ -1336,6 +1348,25 @@ VOID MY_END_PROC(VOID)
 		return;
 	}
 
+	if (MY_KEY_DOWN(KEY_INPUT_1) == TRUE)
+	{
+		if (CheckSoundMem(BGM_COMP.handle) != 0)
+		{
+			StopSoundMem(BGM_COMP.handle);
+		}
+
+		if (CheckSoundMem(BGM_FAIL.handle) != 0)
+		{
+			StopSoundMem(BGM_FAIL.handle);
+		}
+
+		SetMouseDispFlag(TRUE);
+
+		GameScene = GAME_SCENE_START;
+
+		return;
+	}
+
 	switch (GameEndkind)
 	{
 	case GAME_END_COMP:
@@ -1431,7 +1462,8 @@ VOID MY_END_DRAW(VOID)
 
 	}
 
-	DrawString(0, 0, "スタート画面(エスケープキーを押してください)", GetColor(255, 255, 255));
+	DrawString(0, 0, "タイトル画面(エスケープキーを押してください)", GetColor(255, 255, 255));
+	DrawString(0, 20, "操作画面(1キーを押してください)", GetColor(255, 255, 255));
 	return;
 }
 
@@ -1655,61 +1687,61 @@ BOOL MY_LOAD_IMAGE(VOID)
 
 	GetGraphSize(mapChip.handle[0], &mapChip.width, &mapChip.height);
 
-	for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
-	{
-		for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
-		{
-			mapDataInit[tate][yoko] = mapData_2[tate][yoko];
+	//for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+	//{
+	//	for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+	//	{
+	//		mapDataInit[tate][yoko] = mapData_2[tate][yoko];
 
-			map[tate][yoko].kind = mapData_2[tate][yoko];
+	//		map[tate][yoko].kind = mapData_2[tate][yoko];
 
-			map[tate][yoko].width = mapChip.width;
-			map[tate][yoko].height = mapChip.height;
+	//		map[tate][yoko].width = mapChip.width;
+	//		map[tate][yoko].height = mapChip.height;
 
-			map[tate][yoko].x = yoko * map[tate][yoko].width;
-			map[tate][yoko].y = tate * map[tate][yoko].height;
+	//		map[tate][yoko].x = yoko * map[tate][yoko].width;
+	//		map[tate][yoko].y = tate * map[tate][yoko].height;
 
-		}
+	//	}
 
-	}
+	//}
 
-	for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
-	{
-		for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
-		{
-			mapColl[tate][yoko].left = (yoko + 0) * mapChip.width + 1;
-			mapColl[tate][yoko].top = (tate + 0) * mapChip.height + 1;
-			mapColl[tate][yoko].right = (yoko + 1) * mapChip.width - 1;
-			mapColl[tate][yoko].bottom = (tate + 1) * mapChip.height - 1;
-		}
+	//for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+	//{
+	//	for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+	//	{
+	//		mapColl[tate][yoko].left = (yoko + 0) * mapChip.width + 1;
+	//		mapColl[tate][yoko].top = (tate + 0) * mapChip.height + 1;
+	//		mapColl[tate][yoko].right = (yoko + 1) * mapChip.width - 1;
+	//		mapColl[tate][yoko].bottom = (tate + 1) * mapChip.height - 1;
+	//	}
 
-	}
+	//}
 
-	if (mapRes == -1)
-	{
-		MessageBox(GetMainWindowHandle(), GAME_MAP_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
-		return FALSE;
-	}
+	//if (mapRes == -1)
+	//{
+	//	MessageBox(GetMainWindowHandle(), GAME_MAP_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
+	//	return FALSE;
+	//}
 
-	GetGraphSize(mapChip.handle[0], &mapChip.width, &mapChip.height);
+	//GetGraphSize(mapChip.handle[0], &mapChip.width, &mapChip.height);
 
-	for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
-	{
-		for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
-		{
-			mapDataInit[tate][yoko] = mapData_3[tate][yoko];
+	//for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+	//{
+	//	for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+	//	{
+	//		mapDataInit[tate][yoko] = mapData_3[tate][yoko];
 
-			map[tate][yoko].kind = mapData_3[tate][yoko];
+	//		map[tate][yoko].kind = mapData_3[tate][yoko];
 
-			map[tate][yoko].width = mapChip.width;
-			map[tate][yoko].height = mapChip.height;
+	//		map[tate][yoko].width = mapChip.width;
+	//		map[tate][yoko].height = mapChip.height;
 
-			map[tate][yoko].x = yoko * map[tate][yoko].width;
-			map[tate][yoko].y = tate * map[tate][yoko].height;
+	//		map[tate][yoko].x = yoko * map[tate][yoko].width;
+	//		map[tate][yoko].y = tate * map[tate][yoko].height;
 
-		}
+	//	}
 
-	}
+	//}
 
 	for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
 	{
@@ -1836,3 +1868,4 @@ BOOL MY_CHECK_RECT_COLL(RECT a, RECT b)
 	}
 	return FALSE;
 }
+
