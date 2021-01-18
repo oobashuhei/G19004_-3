@@ -58,7 +58,7 @@
 #define IMAGE_END_COMP_CNT_MAX    30
 
 //Ž¸”s‰æ‘œ
-#define IMAGE_END_FAIL_PATH       TEXT(".\\IMAGE\\FAIL.png")
+#define IMAGE_END_FAIL_PATH       TEXT(".\\IMAGE\\gameover.png")
 #define IMAGE_END_FAIL_CNT        1
 #define IMAGE_END_FAIL_CNT_MAX    30
 
