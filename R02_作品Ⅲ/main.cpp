@@ -58,7 +58,7 @@
 #define IMAGE_END_COMP_CNT_MAX    30
 
 //失敗画像
-#define IMAGE_END_FAIL_PATH       TEXT(".\\IMAGE\\gameover.png")
+#define IMAGE_END_FAIL_PATH       TEXT(".\\IMAGE\\gameover2.png")
 #define IMAGE_END_FAIL_CNT        1
 #define IMAGE_END_FAIL_CNT_MAX    30
 
@@ -1074,6 +1074,7 @@ VOID MY_PLAY_PROC(VOID)
 		{
 			for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
 			{
+				//プレイヤーが右に動いた分マップを左に動かす
 				mapColl[tate][yoko].left -= player.speed;
 				mapColl[tate][yoko].right -= player.speed;
 			}
@@ -1083,12 +1084,14 @@ VOID MY_PLAY_PROC(VOID)
 		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
 		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
 
-		//マップの当たり判定
+		//マップ壁の当たり判定
 		if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
 		{
 			//player.CenterX -= CHARA_SPEED_MIDI;
+			//プレイヤーが戻ったとき
 			player.mapDis -= player.speed;
 
+			//マップの判定を右に動かす
 			for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
 			{
 				for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
@@ -1115,7 +1118,6 @@ VOID MY_PLAY_PROC(VOID)
 	{
 		//player.CenterX -= CHARA_SPEED_MIDI;
 		//マップが動いた数＝プレイヤーが動いた数
-
 		player.mapDis -= player.speed;
 
 		//マップの当たり判定プレイヤーが動いた数だけ動く
@@ -1123,6 +1125,7 @@ VOID MY_PLAY_PROC(VOID)
 		{
 			for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
 			{
+				//プレイヤーが左に動いた分マップを右に動かす
 				mapColl[tate][yoko].left += player.speed;
 				mapColl[tate][yoko].right += player.speed;
 			}
@@ -1139,6 +1142,7 @@ VOID MY_PLAY_PROC(VOID)
 			{
 				for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
 				{
+					//マップ判定を左に動かす
 					mapColl[tate][yoko].left -= player.speed;
 					mapColl[tate][yoko].right -= player.speed;
 				}
@@ -1213,17 +1217,20 @@ VOID MY_PLAY_PROC(VOID)
 	{
 		if (enemy[i].view == TRUE)
 		{
+			//敵が動いて壁に当たったとき
 			enemy[i].CenterX += enemy[i].Moveadd;
 			if (MY_CHECK_MAP1_PLAYER_COLL(enemy[i].coll) == TRUE)
 			{
 				enemy[i].CenterX -= enemy[i].Moveadd * 2;
 				enemy[i].Moveadd *= -1;
 			}
+			//敵の当たり判定
 			enemy[i].coll.left = enemy[i].CenterX - mapChip.width / 2 + 5;
 			enemy[i].coll.top = enemy[i].CenterY - mapChip.height / 2 + 5;
 			enemy[i].coll.right = enemy[i].CenterX + mapChip.width / 2 - 5;
 			enemy[i].coll.bottom = enemy[i].CenterY + mapChip.height / 2 - 5;
 
+			//敵の移動
 			if (enemy[i].image.x >= 0 && enemy[i].image.x < GAME_WIDTH)
 			{
 				enemy[i].image.x = enemy[i].CenterX - enemy[i].image.width / 2;
@@ -1320,7 +1327,7 @@ VOID MY_PLAY_DRAW(VOID)
 					mapColl[tate][yoko].right, 
 					mapColl[tate][yoko].bottom, 
 					GetColor(255, 255, 255),
-					FALSE
+					TRUE
 				);
 			}
 		}
