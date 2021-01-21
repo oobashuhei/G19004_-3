@@ -73,7 +73,7 @@
 
 #define MUSIC_BGM_TITLE_PATH        TEXT(".\\MUSIC\\Rising_sun.mp3")
 #define MUSIC_BGM_COMP_PATH         TEXT(".\\MUSIC\\トロピカル.mp3")
-#define MUSIC_BGM_FAIL_PATH         TEXT(".\\MUSIC\\トロピカル.mp3")
+#define MUSIC_BGM_FAIL_PATH         TEXT(".\\MUSIC\\軋み.mp3")
 
 #define ENEMY_MAX              10
 
