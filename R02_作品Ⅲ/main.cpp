@@ -78,7 +78,7 @@
 #define ENEMY_MAX              10
 
 #define GAME_MAP_TATE_MAX      9
-#define GAME_MAP_YOKO_MAX      20
+#define GAME_MAP_YOKO_MAX      45
 #define GAME_MAP_KIND_MAX      3
 
 #define GAME_MAP_PATH          TEXT(".\\MAP\\map.png")
@@ -198,6 +198,9 @@ typedef struct STRUCT_CHARA
 	RECT coll;
 	iPOINT collBeforePt;
 
+	//移動した距離
+	int mapDis;
+
 }CHARA;
 
 typedef struct STRUCT_ENEMY
@@ -307,15 +310,15 @@ GAME_STAGE GameStage;
 
 
 GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-	t,t,t,t,t,t,t,t,t,t,t,g,t,t,t,t,t,t,t,t,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,
-	k,t,t,t,k,k,k,t,t,e,k,k,k,t,k,t,t,t,t,t,
-	k,t,e,t,t,t,k,t,t,k,t,t,k,t,k,t,t,t,t,t,
-	k,k,k,t,t,t,k,t,k,t,k,t,t,t,k,t,t,t,t,t,
-	k,t,t,t,e,t,k,t,k,t,k,t,t,t,k,t,t,t,t,t,
-	k,t,t,e,k,k,t,t,t,t,t,t,e,t,k,t,t,t,t,t,
-	k,s,k,k,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,
-	k,k,t,t,t,t,t,t,k,k,k,k,k,k,k,t,t,t,t,t
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,t,k,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,k,k,k,k,t,t,t,t,t,t,t,k,t,t,t,t,k,t,k,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,k,k,t,t,t,t,t,k,t,t,t,t,t,k,t,k,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,k,k,t,t,t,t,k,t,k,t,t,t,t,t,t,t,k,t,k,k,t,k,k,k,k,k,k,
+	k,t,t,t,t,t,t,s,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,t,k,k,t,t,t,k,g,k,k,k,k,k,k,
+	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,k,k,k,k,k,t,k,k,k,k,k,k,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k
 };
 
 //GAME_MAP_KIND mapData_2[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
@@ -404,6 +407,9 @@ VOID MY_DELETE_MUSIC(VOID);
 BOOL MY_CHECK_MAP1_PLAYER_COLL(RECT);
 BOOL MY_CHECK_RECT_COLL(RECT, RECT);
 
+//ゴール判定
+BOOL MY_CHECK_MAP1_GOAL(RECT player);
+
 VOID MY_PLEY_MOVE_JUMP(VOID);	//ジャンプ処理
 
 int spHandle;
@@ -456,7 +462,6 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpCmdLine
 			{
 				startPt.x = mapChip.width * yoko + mapChip.width / 2;
 				startPt.y = mapChip.height * tate + mapChip.height / 2;
-				break;
 			}
 
 			if (mapData[tate][yoko] == g)
@@ -899,6 +904,7 @@ VOID MY_START_PROC(VOID)
 
 		SetMouseDispFlag(FALSE);
 
+		//初期化
 		player.CenterX = startPt.x;
 		player.CenterY = startPt.y;
 
@@ -908,8 +914,12 @@ VOID MY_START_PROC(VOID)
 		player.collBeforePt.x = player.CenterX;
 		player.collBeforePt.y = player.CenterY;
 
+		//マップの移動した距離初期化
+		player.mapDis = 0;
+
 		SetMousePoint(player.image.x, player.image.y);
 
+		//敵の場所初期化
 		for (int i = 0; i < enemyCnt; i++)
 		{
 			enemy[i].Moveadd = 1;
@@ -1027,7 +1037,7 @@ VOID MY_PLAY_PROC(VOID)
 		}
 	}
 
-
+	//player移動処理
 	if (MY_KEY_DOWN(KEY_INPUT_UP) || MY_KEY_DOWN(KEY_INPUT_W))
 	{
 		player.CenterY -= CHARA_SPEED_MIDI;
@@ -1054,26 +1064,97 @@ VOID MY_PLAY_PROC(VOID)
 	}
 	if (MY_KEY_DOWN(KEY_INPUT_RIGHT) || MY_KEY_DOWN(KEY_INPUT_D))
 	{
-		player.CenterX += CHARA_SPEED_MIDI;
+		//player.CenterX += CHARA_SPEED_MIDI;
+
+		//マップが動いた数＝プレイヤーが動いた数
+		player.mapDis += player.speed;
+
+		//マップの当たり判定プレイヤーが動いた数だけ動く
+		for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+		{
+			for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+			{
+				mapColl[tate][yoko].left -= player.speed;
+				mapColl[tate][yoko].right -= player.speed;
+			}
+		}
 		player.coll.left = player.CenterX - mapChip.width / 2 + 5;
 		player.coll.top = player.CenterY - mapChip.height / 2 + 5;
 		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
 		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
+
+		//マップの当たり判定
 		if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
 		{
-			player.CenterX -= CHARA_SPEED_MIDI;
+			//player.CenterX -= CHARA_SPEED_MIDI;
+			player.mapDis -= player.speed;
+
+			for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+			{
+				for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+				{
+					mapColl[tate][yoko].left += player.speed;
+					mapColl[tate][yoko].right += player.speed;
+				}
+			}
+		}
+		//マップゴールの当たり判定処理
+		if (MY_CHECK_MAP1_GOAL(player.coll) == TRUE)
+		{
+			if (CheckSoundMem(PLAY_BGM.handle) != 0)
+			{
+				StopSoundMem(PLAY_BGM.handle);
+			}
+
+			GameEndkind = GAME_END_COMP;
+
+			GameScene = GAME_SCENE_END;
 		}
 	}
 	if (MY_KEY_DOWN(KEY_INPUT_LEFT) || MY_KEY_DOWN(KEY_INPUT_A))
 	{
-		player.CenterX -= CHARA_SPEED_MIDI;
+		//player.CenterX -= CHARA_SPEED_MIDI;
+		//マップが動いた数＝プレイヤーが動いた数
+
+		player.mapDis -= player.speed;
+
+		//マップの当たり判定プレイヤーが動いた数だけ動く
+		for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+		{
+			for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+			{
+				mapColl[tate][yoko].left += player.speed;
+				mapColl[tate][yoko].right += player.speed;
+			}
+		}
 		player.coll.left = player.CenterX - mapChip.width / 2 + 5;
 		player.coll.top = player.CenterY - mapChip.height / 2 + 5;
 		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
 		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
 		if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
 		{
-			player.CenterX += CHARA_SPEED_MIDI;
+			//player.CenterX += CHARA_SPEED_MIDI;
+			player.mapDis += player.speed;
+			for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+			{
+				for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+				{
+					mapColl[tate][yoko].left -= player.speed;
+					mapColl[tate][yoko].right -= player.speed;
+				}
+			}
+		}
+		//マップゴールの当たり判定処理
+		if (MY_CHECK_MAP1_GOAL(player.coll) == TRUE)
+		{
+			if (CheckSoundMem(PLAY_BGM.handle) != 0)
+			{
+				StopSoundMem(PLAY_BGM.handle);
+			}
+
+			GameEndkind = GAME_END_COMP;
+
+			GameScene = GAME_SCENE_END;
 		}
 	}
 
@@ -1103,6 +1184,7 @@ VOID MY_PLAY_PROC(VOID)
 		}
 	}
 
+	//当たり判定
 	RECT PlayerRect;
 	int CollRange = 5;
 	PlayerRect.left = player.image.x + player.image.width / 2 - CollRange;
@@ -1110,6 +1192,7 @@ VOID MY_PLAY_PROC(VOID)
 	PlayerRect.right = player.image.x + player.image.width / 2 + CollRange;
 	PlayerRect.bottom = player.image.y + player.image.height / 2 + CollRange;
 
+	//ゴール
 	if (MY_CHECK_RECT_COLL(PlayerRect, GoalRect) == TRUE)
 	{
 		if (CheckSoundMem(PLAY_BGM.handle) != 0)
@@ -1221,91 +1304,25 @@ VOID MY_PLAY_DRAW(VOID)
 	{
 		for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
 		{
-			//if (player.CenterX > (GAME_WIDTH / 2) && player.CenterX <= (GAME_MAP_YOKO_MAX * mapChip.width) - (GAME_WIDTH / 2))
-			//	{
-			//		if (player.CenterX - (GAME_WIDTH / 2) - mapChip.width <= map[player][tate][yoko].x &&
-			//			map[player][tate][yoko].x <= player.CenterX + (GAME_WIDTH / 2) &&
-			//			0 <= mapData[player][tate][yoko].y &&
-			//			mapData[player][tate][yoko].y < GAME_HEIGHT + mapChip.height)
-			//		{
-			//			DrawGraph(
-			//				mapData[player][tate][yoko].x - (player.CenterX - (GAME_WIDTH / 2)),
-			//				mapData[player][tate][yoko].y,
-			//				mapChip.handle[mapData[player][tate][yoko].kind],
-			//				TRUE);
-			//			//DrawRotaGraph(player.image.x - (player.CenterX - (GAME_WIDTH / 2)) + player.image.width / 2, player.image.y + player.image.height / 2, 1.0, player.Muki / 18 * M_PI, player.image.handle, TRUE);
-			//		}
-			//	}
-			//	else if (player.CenterX > (GAME_MAP_YOKO_MAX * mapChip.width) - (GAME_WIDTH / 2))
-			//	{
-			//		if ((GAME_MAP_YOKO_MAX)*mapChip.width - GAME_WIDTH - mapChip.width <= mapData[player][tate][yoko].x &&
-			//			mapData[player][tate][yoko].x <= (GAME_MAP_YOKO_MAX + 1) * mapChip.width &&
-			//			0 <= mapData[player][tate][yoko].y &&
-			//			mapData[player][tate][yoko].y < GAME_HEIGHT + mapChip.height)
-			//		{
-			//			DrawGraph(
-			//				mapData[player][tate][yoko].x - (GAME_MAP_YOKO_MAX * mapChip.width - GAME_WIDTH),
-			//				mapData[player][tate][yoko].y,
-			//				mapChip.handle[mapData[player][tate][yoko].kind],
-			//				TRUE);
-			//			//DrawRotaGraph(player.image.x - (GAME_MAP_YOKO_MAX * mapChip.width - GAME_WIDTH) + player.image.width / 2, player.image.y + player.image.height / 2, 1.0, player.Muki / 18 * M_PI, player.image.handle, TRUE);
-			//		}
-			//	}
-			//	else
-			//	{
-			//		DrawGraph(
-			//			map[player][tate][yoko].x,
-			//			mapData[player][tate][yoko].y,
-			//			mapChip.handle[mapData[player][tate][yoko].kind],
-			//			TRUE);
-			//		//DrawRotaGraph(player.image.x + player.image.width / 2, player.image.y + player.image.height / 2, 1.0, player.Muki / 18 * M_PI, player.image.handle, TRUE);
-			//	}
-
+			//マップ当たり判定
 			DrawGraph(
-				map[tate][yoko].x,
+				map[tate][yoko].x - player.mapDis,
 				map[tate][yoko].y,
 				mapChip.handle[map[tate][yoko].kind],
 				TRUE);
 
-			//(プレイヤーの位置が左端
-			//if (player.CenterX<GAME_WIDTH/2)
-			//{
-			//プレイヤーの位置が上端
-			//	if (player.CenterY<GAME_HEIGHT/2)
-			//	{
-			//	}
-			//プレイヤーの位置が下端
-			//	else if (player.CenterY>(GAME_MAP_TATE_MAX*mapChip.height)-GAME_HEIGHT/2)
-			//	{
-			//	}
-			//	else
-			//	{
-			//	}
-			//}
-			//if (プレイヤーの位置が右端)
-			//{
-			//	if (プレイヤーの位置が上端)
-			//	{
-			//	}
-			//	else if (プレイヤーの位置が下端)
-			//	{
-			//	}
-			//	else
-			//	{
-			//	}
-			//}
-			//else
-			//{
-			//	if (プレイヤーの位置が上端)
-			//	{
-			//	}
-			//	else if (プレイヤーの位置が下端)
-			//	{
-			//	}
-			//	else
-			//	{
-			//	}
-			//}
+			//デバッグモード
+			if (map[tate][yoko].kind == k)
+			{
+				DrawBox(
+					mapColl[tate][yoko].left,
+					mapColl[tate][yoko].top,
+					mapColl[tate][yoko].right, 
+					mapColl[tate][yoko].bottom, 
+					GetColor(255, 255, 255),
+					FALSE
+				);
+			}
 		}
 
 	}
@@ -1849,6 +1866,23 @@ BOOL MY_CHECK_MAP1_PLAYER_COLL(RECT player)
 			if (MY_CHECK_RECT_COLL(player, mapColl[tate][yoko]) == TRUE)
 			{
 				if (map[tate][yoko].kind == k) { return TRUE; }
+			}
+		}
+	}
+
+	return FALSE;
+}
+
+//ゴールに当たった時
+BOOL MY_CHECK_MAP1_GOAL(RECT player)
+{
+	for (int tate = 0; tate <= GAME_MAP_TATE_MAX; tate++)
+	{
+		for (int yoko = 0; yoko <= GAME_MAP_YOKO_MAX; yoko++)
+		{
+			if (MY_CHECK_RECT_COLL(player, mapColl[tate][yoko]) == TRUE)
+			{
+				if (map[tate][yoko].kind == g) { return TRUE; }
 			}
 		}
 	}
