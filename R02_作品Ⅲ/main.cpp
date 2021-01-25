@@ -67,12 +67,12 @@
 
 #define MUSIC_LOAD_ERR_TITLE   TEXT("音楽読み込みエラー")
 
-#define MUSIC_PLAY_BGM_PATH         TEXT(".\\MUSIC\\トロピカル.mp3")
+#define MUSIC_PLAY_BGM_PATH         TEXT(".\\MUSIC\\カバルの丘.mp3")
 
 #define MUSIC_START_BGM_PATH        TEXT(".\\MUSIC\\pops_up_the_mind_wings.mp3")
 
 #define MUSIC_BGM_TITLE_PATH        TEXT(".\\MUSIC\\Rising_sun.mp3")
-#define MUSIC_BGM_COMP_PATH         TEXT(".\\MUSIC\\トロピカル.mp3")
+#define MUSIC_BGM_COMP_PATH         TEXT(".\\MUSIC\\BT_GIRLS.mp3")
 #define MUSIC_BGM_FAIL_PATH         TEXT(".\\MUSIC\\軋み.mp3")
 
 #define ENEMY_MAX              10
@@ -100,6 +100,9 @@
 
 #define JUMP_FRAME	60
 #define JUMP_POWER	8
+
+//重力
+#define GAME_GR		9.8
 
 enum GAME_MAP_KIND
 {
@@ -200,6 +203,12 @@ typedef struct STRUCT_CHARA
 
 	//移動した距離
 	int mapDis;
+
+	//ジャンプしてるかのフラグ
+	bool jflag = false;
+
+	//マップのy座標
+	int mapY;
 
 }CHARA;
 
@@ -431,6 +440,7 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpCmdLine
 
 	SetWindowIconID(IDI_ICON1);
 
+	//初期化
 	if (DxLib_Init() == -1) { return -1; }
 
 	if (MY_LOAD_IMAGE() == FALSE) { return -1; }
@@ -1037,31 +1047,77 @@ VOID MY_PLAY_PROC(VOID)
 		}
 	}
 
+	//強制的に下にいかせる
+	//player.CenterY += GAME_GR;
+
+	//プレイヤーの当たり判定の領域を作る
+	player.coll.left = player.CenterX - mapChip.width / 2 + 5;
+	player.coll.top = player.CenterY - mapChip.height / 2 + 5;
+	player.coll.right = player.CenterX + mapChip.width / 2 - 5;
+	player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
+
+	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
+	{
+		//プレイヤーを上に押し上げる
+		player.CenterY -= GAME_GR;
+	}
+
+	//ジャンプ処理
+	if (MY_KEY_DOWN(KEY_INPUT_W) == TRUE)
+	{
+		//if (MY_CHECK_RECT_COLL() == TRUE)
+		//{
+			if (player.IsJump == FALSE)
+			{
+				player.IsJump = TRUE;					//ジャンプする
+				player.BeforeJumpY = player.CenterY;	//ジャンプする前のY位置
+				player.JumpPowerMax = -20;				//初速度を10まで引く
+			}
+		//}
+	}
+
+	if (player.IsJump == TRUE)
+	{
+		//重力を相殺する
+		//player.CenterY -= GAME_GR;
+		//今の位置を保存
+		int y_temp = player.CenterY;
+		//今いるところと前に居たところの差分だけ上にあげる
+		//上限にいくと＋に戻る
+		player.CenterY += (player.CenterY - player.BeforeJumpY) + player.JumpPowerMax;
+		//差分の量
+		player.JumpPowerMax = 1;
+		//前の位置を保存して次に行く
+		player.BeforeJumpY = y_temp;
+	}
+
 	//player移動処理
-	if (MY_KEY_DOWN(KEY_INPUT_UP) || MY_KEY_DOWN(KEY_INPUT_W))
-	{
-		player.CenterY -= CHARA_SPEED_MIDI;
-		player.coll.left = player.CenterX - mapChip.width / 2 + 5;
-		player.coll.top = player.CenterY - mapChip.height / 2 + 5;
-		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
-		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
-		if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
-		{
-			player.CenterY += CHARA_SPEED_MIDI;
-		}
-	}
-	if (MY_KEY_DOWN(KEY_INPUT_DOWN) || MY_KEY_DOWN(KEY_INPUT_S))
-	{
-		player.CenterY += CHARA_SPEED_MIDI;
-		player.coll.left = player.CenterX - mapChip.width / 2 + 5;
-		player.coll.top = player.CenterY - mapChip.height / 2 + 5;
-		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
-		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
-		if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
-		{
-			player.CenterY -= CHARA_SPEED_MIDI;
-		}
-	}
+	//if (MY_KEY_DOWN(KEY_INPUT_UP) || MY_KEY_DOWN(KEY_INPUT_W))
+	//{
+	//	player.CenterY -= CHARA_SPEED_MIDI;
+	//	player.coll.left = player.CenterX - mapChip.width / 2 + 5;
+	//	player.coll.top = player.CenterY - mapChip.height / 2 + 5;
+	//	player.coll.right = player.CenterX + mapChip.width / 2 - 5;
+	//	player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
+	//	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
+	//	{
+	//		player.CenterY += CHARA_SPEED_MIDI;
+	//	}
+	//}
+
+	//if (MY_KEY_DOWN(KEY_INPUT_DOWN) || MY_KEY_DOWN(KEY_INPUT_S))
+	//{
+	//	player.CenterY += CHARA_SPEED_MIDI;
+	//	player.coll.left = player.CenterX - mapChip.width / 2 + 5;
+	//	player.coll.top = player.CenterY - mapChip.height / 2 + 5;
+	//	player.coll.right = player.CenterX + mapChip.width / 2 - 5;
+	//	player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
+	//	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
+	//	{
+	//		player.CenterY -= CHARA_SPEED_MIDI;
+	//	}
+	//}
+
 	if (MY_KEY_DOWN(KEY_INPUT_RIGHT) || MY_KEY_DOWN(KEY_INPUT_D))
 	{
 		//player.CenterX += CHARA_SPEED_MIDI;
@@ -1114,6 +1170,7 @@ VOID MY_PLAY_PROC(VOID)
 			GameScene = GAME_SCENE_END;
 		}
 	}
+
 	if (MY_KEY_DOWN(KEY_INPUT_LEFT) || MY_KEY_DOWN(KEY_INPUT_A))
 	{
 		//player.CenterX -= CHARA_SPEED_MIDI;
@@ -1327,7 +1384,7 @@ VOID MY_PLAY_DRAW(VOID)
 					mapColl[tate][yoko].right, 
 					mapColl[tate][yoko].bottom, 
 					GetColor(255, 255, 255),
-					TRUE
+					FALSE
 				);
 			}
 		}
@@ -1909,4 +1966,3 @@ BOOL MY_CHECK_RECT_COLL(RECT a, RECT b)
 	}
 	return FALSE;
 }
-
