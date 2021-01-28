@@ -78,7 +78,7 @@
 #define ENEMY_MAX              10
 
 #define GAME_MAP_TATE_MAX      9
-#define GAME_MAP_YOKO_MAX      45
+#define GAME_MAP_YOKO_MAX      75
 #define GAME_MAP_KIND_MAX      3
 
 #define GAME_MAP_PATH          TEXT(".\\MAP\\map.png")
@@ -102,7 +102,7 @@
 #define JUMP_POWER	8
 
 //重力
-#define GAME_GR		9.8
+#define GAME_GR		9
 
 enum GAME_MAP_KIND
 {
@@ -319,15 +319,15 @@ GAME_STAGE GameStage;
 
 
 GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,t,k,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,k,k,k,k,t,t,t,t,t,t,t,k,t,t,t,t,k,t,k,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,k,k,t,t,t,t,t,k,t,t,t,t,t,k,t,k,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,k,k,t,t,t,t,k,t,k,t,t,t,t,t,t,t,k,t,k,k,t,k,k,k,k,k,k,
-	k,t,t,t,t,t,t,s,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,t,k,k,t,t,t,k,g,k,k,k,k,k,k,
-	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,k,k,k,k,k,t,k,k,k,k,k,k,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,k,t,t,t,k,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,k,t,t,t,t,t,t,k,k,t,t,t,t,k,k,k,k,k,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,k,k,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,t,t,t,t,t,t,t,t,t,k,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,s,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,k,g,k,k,k,k,k,
+	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,k,k,t,k,t,k,t,k,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k
 };
 
 //GAME_MAP_KIND mapData_2[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
@@ -450,8 +450,6 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpCmdLine
 	if (MY_FONT_INSTALL_ONCE() == FALSE) { return -1; }
 
 	if (MY_FONT_CREATE() == FALSE) { return -1; }
-
-	SetMouseDispFlag(TRUE);
 
 	//タイトルからスタート
 	GameScene = GAME_SCENE_TITLE;
@@ -912,11 +910,14 @@ VOID MY_START_PROC(VOID)
 			StopSoundMem(START_BGM.handle);
 		}
 
-		SetMouseDispFlag(FALSE);
-
 		//初期化
 		player.CenterX = startPt.x;
 		player.CenterY = startPt.y;
+
+		player.coll.left = player.CenterX - mapChip.width / 2 + 5;
+		player.coll.top = player.CenterY - mapChip.height / 2 + 5;
+		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
+		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
 
 		player.image.x = player.CenterX;
 		player.image.y = player.CenterY;
@@ -926,8 +927,6 @@ VOID MY_START_PROC(VOID)
 
 		//マップの移動した距離初期化
 		player.mapDis = 0;
-
-		SetMousePoint(player.image.x, player.image.y);
 
 		//敵の場所初期化
 		for (int i = 0; i < enemyCnt; i++)
@@ -941,6 +940,36 @@ VOID MY_START_PROC(VOID)
 
 			enemy[i].image.x = enemy[i].CenterX;
 			enemy[i].image.y = enemy[i].CenterY;
+		}
+
+		//マップの判定を初期化
+		for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+		{
+			for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+			{
+				mapDataInit[tate][yoko] = mapData[tate][yoko];
+
+				map[tate][yoko].kind = mapData[tate][yoko];
+
+				map[tate][yoko].width = mapChip.width;
+				map[tate][yoko].height = mapChip.height;
+
+				map[tate][yoko].x = yoko * map[tate][yoko].width;
+				map[tate][yoko].y = tate * map[tate][yoko].height;
+
+			}
+		}
+
+		for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
+		{
+			for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
+			{
+				mapColl[tate][yoko].left = (yoko + 0) * mapChip.width + 1;
+				mapColl[tate][yoko].top = (tate + 0) * mapChip.height + 1;
+				mapColl[tate][yoko].right = (yoko + 1) * mapChip.width - 1;
+				mapColl[tate][yoko].bottom = (tate + 1) * mapChip.height - 1;
+			}
+
 		}
 
 		GameEndkind = GAME_END_FAIL;
@@ -1023,10 +1052,6 @@ VOID MY_PLAY_PROC(VOID)
 
 	if (mouse.Button[MOUSE_INPUT_RIGHT] == TRUE)
 	{
-		iPOINT R_ClickPt = mouse.Point;
-
-		SetMouseDispFlag(TRUE);
-
 		int Ret = MessageBox(GetMainWindowHandle(), MOUSE_R_CLICK_CAPTION, MOUSE_R_CLICK_TITLE, MB_YESNO);
 
 		if (Ret == IDYES)
@@ -1039,16 +1064,10 @@ VOID MY_PLAY_PROC(VOID)
 			}
 			return;
 		}
-		else if (Ret == IDNO)
-		{
-			SetMousePoint(R_ClickPt.x, R_ClickPt.y);
-
-			SetMouseDispFlag(FALSE);
-		}
 	}
 
 	//強制的に下にいかせる
-	//player.CenterY += GAME_GR;
+	player.CenterY += GAME_GR;
 
 	//プレイヤーの当たり判定の領域を作る
 	player.coll.left = player.CenterX - mapChip.width / 2 + 5;
@@ -1060,63 +1079,83 @@ VOID MY_PLAY_PROC(VOID)
 	{
 		//プレイヤーを上に押し上げる
 		player.CenterY -= GAME_GR;
+
+		//押し上げるプレイヤーの当たり判定
+		player.coll.left = player.CenterX - mapChip.width / 2 + 5;
+		player.coll.top = player.CenterY - mapChip.height / 2 + 5;
+		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
+		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
 	}
+
 
 	//ジャンプ処理
 	if (MY_KEY_DOWN(KEY_INPUT_W) == TRUE)
 	{
-		//if (MY_CHECK_RECT_COLL() == TRUE)
-		//{
-			if (player.IsJump == FALSE)
-			{
-				player.IsJump = TRUE;					//ジャンプする
-				player.BeforeJumpY = player.CenterY;	//ジャンプする前のY位置
-				player.JumpPowerMax = -20;				//初速度を10まで引く
-			}
-		//}
+
+		if (player.IsJump == FALSE)
+		{
+			player.IsJump = TRUE;					//ジャンプする
+			player.BeforeJumpY = player.CenterY;	//ジャンプする前のY位置
+			player.JumpPowerMax = -10;				//初速度を10まで引く
+		}
 	}
 
 	if (player.IsJump == TRUE)
 	{
 		//重力を相殺する
-		//player.CenterY -= GAME_GR;
+		player.CenterY -= GAME_GR;
+
 		//今の位置を保存
 		int y_temp = player.CenterY;
+
 		//今いるところと前に居たところの差分だけ上にあげる
 		//上限にいくと＋に戻る
-		player.CenterY += (player.CenterY - player.BeforeJumpY) + player.JumpPowerMax;
+		//player.CenterY += (player.CenterY - player.BeforeJumpY) + player.JumpPowerMax;
+
+		//プレイヤーがジャンプした数を入れる
+		int JumpCnt = (player.CenterY - player.BeforeJumpY) + player.JumpPowerMax;
+
+		//ジャンプした数をプレイヤーのY軸に入れる
+		player.CenterY += JumpCnt;
+
 		//差分の量
 		player.JumpPowerMax = 1;
+
 		//前の位置を保存して次に行く
 		player.BeforeJumpY = y_temp;
+
+		//当たり判定を上に飛ばす
+		player.coll.left = player.CenterX - mapChip.width / 2 + 5;
+		player.coll.top = player.CenterY - mapChip.height / 2 + 5;
+		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
+		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
+
+		//プレイヤーが埋まったとき押し戻す
+		if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
+		{
+			while (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
+			{
+				//プレイヤーがジャンプ上昇中の時押し戻す
+				if (JumpCnt <= 0)
+				{
+					player.CenterY++;
+				}
+
+				//プレイヤーがジャンプ下降中の時押し戻す
+				else
+				{
+					player.CenterY--;
+				}
+
+				//当たり判定も押し戻す
+				player.coll.left = player.CenterX - mapChip.width / 2 + 5;
+				player.coll.top = player.CenterY - mapChip.height / 2 + 5;
+				player.coll.right = player.CenterX + mapChip.width / 2 - 5;
+				player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
+			}
+			player.IsJump = FALSE;
+		}
 	}
-
-	//player移動処理
-	//if (MY_KEY_DOWN(KEY_INPUT_UP) || MY_KEY_DOWN(KEY_INPUT_W))
-	//{
-	//	player.CenterY -= CHARA_SPEED_MIDI;
-	//	player.coll.left = player.CenterX - mapChip.width / 2 + 5;
-	//	player.coll.top = player.CenterY - mapChip.height / 2 + 5;
-	//	player.coll.right = player.CenterX + mapChip.width / 2 - 5;
-	//	player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
-	//	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
-	//	{
-	//		player.CenterY += CHARA_SPEED_MIDI;
-	//	}
-	//}
-
-	//if (MY_KEY_DOWN(KEY_INPUT_DOWN) || MY_KEY_DOWN(KEY_INPUT_S))
-	//{
-	//	player.CenterY += CHARA_SPEED_MIDI;
-	//	player.coll.left = player.CenterX - mapChip.width / 2 + 5;
-	//	player.coll.top = player.CenterY - mapChip.height / 2 + 5;
-	//	player.coll.right = player.CenterX + mapChip.width / 2 - 5;
-	//	player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
-	//	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
-	//	{
-	//		player.CenterY -= CHARA_SPEED_MIDI;
-	//	}
-	//}
 
 	if (MY_KEY_DOWN(KEY_INPUT_RIGHT) || MY_KEY_DOWN(KEY_INPUT_D))
 	{
@@ -1195,6 +1234,7 @@ VOID MY_PLAY_PROC(VOID)
 		{
 			//player.CenterX += CHARA_SPEED_MIDI;
 			player.mapDis += player.speed;
+
 			for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
 			{
 				for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
@@ -1226,23 +1266,14 @@ VOID MY_PLAY_PROC(VOID)
 
 	BOOL IsMove = TRUE;
 
-	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
-	{
-		SetMousePoint(player.collBeforePt.x, player.collBeforePt.y);
-		IsMove = FALSE;
-	}
-
 	if (IsMove == TRUE)
 	{
-		if (mouse.Point.x >= 0 && mouse.Point.x <= GAME_WIDTH
-			&& mouse.Point.y >= 0 && mouse.Point.y <= GAME_HEIGHT)
-		{
-			player.image.x = player.CenterX - player.image.width / 2;
-			player.image.y = player.CenterY - player.image.height / 2;
+		player.image.x = player.CenterX - player.image.width / 2;
+		player.image.y = player.CenterY - player.image.height / 2;
 
-			player.collBeforePt.x = player.CenterX;
-			player.collBeforePt.y = player.CenterY;
-		}
+		player.collBeforePt.x = player.CenterX;
+		player.collBeforePt.y = player.CenterY;
+
 	}
 
 	//当たり判定
@@ -1260,8 +1291,6 @@ VOID MY_PLAY_PROC(VOID)
 		{
 			StopSoundMem(PLAY_BGM.handle);
 		}
-
-		SetMouseDispFlag(TRUE);
 
 		GameEndkind = GAME_END_COMP;
 
@@ -1304,8 +1333,6 @@ VOID MY_PLAY_PROC(VOID)
 					StopSoundMem(PLAY_BGM.handle);
 				}
 
-				SetMouseDispFlag(TRUE);
-
 				GameEndkind = GAME_END_FAIL;
 
 				GameScene = GAME_SCENE_END;
@@ -1322,8 +1349,6 @@ VOID MY_PLAY_PROC(VOID)
 		{
 			StopSoundMem(PLAY_BGM.handle);
 		}
-
-		SetMouseDispFlag(TRUE);
 
 		GameEndkind = GAME_END_FAIL;
 
@@ -1381,8 +1406,8 @@ VOID MY_PLAY_DRAW(VOID)
 				DrawBox(
 					mapColl[tate][yoko].left,
 					mapColl[tate][yoko].top,
-					mapColl[tate][yoko].right, 
-					mapColl[tate][yoko].bottom, 
+					mapColl[tate][yoko].right,
+					mapColl[tate][yoko].bottom,
 					GetColor(255, 255, 255),
 					FALSE
 				);
@@ -1410,6 +1435,7 @@ VOID MY_END(VOID)
 
 VOID MY_END_PROC(VOID)
 {
+	//ESC押すとタイトルに戻る
 	if (MY_KEY_DOWN(KEY_INPUT_ESCAPE) == TRUE)
 	{
 		if (CheckSoundMem(BGM_COMP.handle) != 0)
@@ -1422,28 +1448,7 @@ VOID MY_END_PROC(VOID)
 			StopSoundMem(BGM_FAIL.handle);
 		}
 
-		SetMouseDispFlag(TRUE);
-
 		GameScene = GAME_SCENE_TITLE;
-
-		return;
-	}
-
-	if (MY_KEY_DOWN(KEY_INPUT_1) == TRUE)
-	{
-		if (CheckSoundMem(BGM_COMP.handle) != 0)
-		{
-			StopSoundMem(BGM_COMP.handle);
-		}
-
-		if (CheckSoundMem(BGM_FAIL.handle) != 0)
-		{
-			StopSoundMem(BGM_FAIL.handle);
-		}
-
-		SetMouseDispFlag(TRUE);
-
-		GameScene = GAME_SCENE_START;
 
 		return;
 	}
@@ -1489,7 +1494,7 @@ VOID MY_END_PROC(VOID)
 			//DX_PLAYTYPE_NORMAL;
 			//DX_PLAYTYPE_BACK;
 			//DX_PLAYTYPE_LOOP;
-			PlaySoundMem(BGM_FAIL.handle, DX_PLAYTYPE_LOOP);
+			PlaySoundMem(BGM_FAIL.handle, DX_PLAYTYPE_BACK);
 		}
 
 		if (ImageEndFAIL.Cnt < ImageEndFAIL.CntMAX)
@@ -1543,8 +1548,7 @@ VOID MY_END_DRAW(VOID)
 
 	}
 
-	DrawString(0, 0, "タイトル画面(エスケープキーを押してください)", GetColor(255, 255, 255));
-	DrawString(0, 20, "操作画面(1キーを押してください)", GetColor(255, 255, 255));
+	//DrawString(0, 0, "タイトル画面(エスケープキーを押してください)", GetColor(255, 255, 255));
 	return;
 }
 
