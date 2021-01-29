@@ -53,7 +53,7 @@
 #define IMAGE_TITLE_CNT_MAX	30
 
 //クリア画像
-#define IMAGE_END_COMP_PATH       TEXT(".\\IMAGE\\COMP.jpg")
+#define IMAGE_END_COMP_PATH       TEXT(".\\IMAGE\\GAME_CLEAR.jpg")
 #define IMAGE_END_COMP_CNT        1
 #define IMAGE_END_COMP_CNT_MAX    30
 
@@ -319,13 +319,13 @@ GAME_STAGE GameStage;
 
 
 GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,k,k,t,k,k,k,k,k,
 	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,k,t,t,t,k,t,k,k,k,k,k,
 	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,k,t,t,t,t,t,t,k,k,t,t,t,t,k,k,k,k,k,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,k,k,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,t,t,t,t,t,t,t,t,t,k,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,k,t,t,t,t,t,k,k,t,t,t,t,t,t,k,t,t,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,k,k,t,k,k,k,k,k,
+	k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,t,t,t,t,t,t,t,t,t,k,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
 	k,t,t,t,t,t,t,s,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,k,g,k,k,k,k,k,
 	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,k,k,t,k,t,k,t,k,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k
 };
@@ -929,18 +929,18 @@ VOID MY_START_PROC(VOID)
 		player.mapDis = 0;
 
 		//敵の場所初期化
-		for (int i = 0; i < enemyCnt; i++)
-		{
-			enemy[i].Moveadd = 1;
+		//for (int i = 0; i < enemyCnt; i++)
+		//{
+		//	enemy[i].Moveadd = 1;
 
-			enemy[i].view = TRUE;
+		//	enemy[i].view = TRUE;
 
-			enemy[i].CenterX = enemyPt[i].x;
-			enemy[i].CenterY = enemyPt[i].y;
+		//	enemy[i].CenterX = enemyPt[i].x;
+		//	enemy[i].CenterY = enemyPt[i].y;
 
-			enemy[i].image.x = enemy[i].CenterX;
-			enemy[i].image.y = enemy[i].CenterY;
-		}
+		//	enemy[i].image.x = enemy[i].CenterX;
+		//	enemy[i].image.y = enemy[i].CenterY;
+		//}
 
 		//マップの判定を初期化
 		for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
@@ -1091,15 +1091,16 @@ VOID MY_PLAY_PROC(VOID)
 	//ジャンプ処理
 	if (MY_KEY_DOWN(KEY_INPUT_W) == TRUE)
 	{
-
+		//もしジャンプしてないとき
 		if (player.IsJump == FALSE)
 		{
 			player.IsJump = TRUE;					//ジャンプする
 			player.BeforeJumpY = player.CenterY;	//ジャンプする前のY位置
-			player.JumpPowerMax = -10;				//初速度を10まで引く
+			player.JumpPowerMax = -7;				//初速度を10まで引く
 		}
 	}
 
+	//ジャンプするとき
 	if (player.IsJump == TRUE)
 	{
 		//重力を相殺する
@@ -1193,6 +1194,8 @@ VOID MY_PLAY_PROC(VOID)
 				{
 					mapColl[tate][yoko].left += player.speed;
 					mapColl[tate][yoko].right += player.speed;
+
+
 				}
 			}
 		}
@@ -1299,48 +1302,48 @@ VOID MY_PLAY_PROC(VOID)
 		return;
 	}
 
-	for (int i = 0; i < enemyCnt; i++)
-	{
-		if (enemy[i].view == TRUE)
-		{
-			//敵が動いて壁に当たったとき
-			enemy[i].CenterX += enemy[i].Moveadd;
-			if (MY_CHECK_MAP1_PLAYER_COLL(enemy[i].coll) == TRUE)
-			{
-				enemy[i].CenterX -= enemy[i].Moveadd * 2;
-				enemy[i].Moveadd *= -1;
-			}
-			//敵の当たり判定
-			enemy[i].coll.left = enemy[i].CenterX - mapChip.width / 2 + 5;
-			enemy[i].coll.top = enemy[i].CenterY - mapChip.height / 2 + 5;
-			enemy[i].coll.right = enemy[i].CenterX + mapChip.width / 2 - 5;
-			enemy[i].coll.bottom = enemy[i].CenterY + mapChip.height / 2 - 5;
+	//for (int i = 0; i < enemyCnt; i++)
+	//{
+	//	if (enemy[i].view == TRUE)
+	//	{
+	//		//敵が動いて壁に当たったとき
+	//		enemy[i].CenterX += enemy[i].Moveadd;
+	//		if (MY_CHECK_MAP1_PLAYER_COLL(enemy[i].coll) == TRUE)
+	//		{
+	//			enemy[i].CenterX -= enemy[i].Moveadd * 2;
+	//			enemy[i].Moveadd *= -1;
+	//		}
+	//		//敵の当たり判定
+	//		enemy[i].coll.left = enemy[i].CenterX - mapChip.width / 2 + 5;
+	//		enemy[i].coll.top = enemy[i].CenterY - mapChip.height / 2 + 5;
+	//		enemy[i].coll.right = enemy[i].CenterX + mapChip.width / 2 - 5;
+	//		enemy[i].coll.bottom = enemy[i].CenterY + mapChip.height / 2 - 5;
 
-			//敵の移動
-			if (enemy[i].image.x >= 0 && enemy[i].image.x < GAME_WIDTH)
-			{
-				enemy[i].image.x = enemy[i].CenterX - enemy[i].image.width / 2;
-				enemy[i].image.y = enemy[i].CenterY - enemy[i].image.height / 2;
+	//		//敵の移動
+	//		if (enemy[i].image.x >= 0 && enemy[i].image.x < GAME_WIDTH)
+	//		{
+	//			enemy[i].image.x = enemy[i].CenterX - enemy[i].image.width / 2;
+	//			enemy[i].image.y = enemy[i].CenterY - enemy[i].image.height / 2;
 
-				enemy[i].collBeforePt.x = enemy[i].CenterX;
-				enemy[i].collBeforePt.y = enemy[i].CenterY;
-			}
+	//			enemy[i].collBeforePt.x = enemy[i].CenterX;
+	//			enemy[i].collBeforePt.y = enemy[i].CenterY;
+	//		}
 
-			if (MY_CHECK_RECT_COLL(PlayerRect, enemy[i].coll) == TRUE)
-			{
-				if (CheckSoundMem(PLAY_BGM.handle) != 0)
-				{
-					StopSoundMem(PLAY_BGM.handle);
-				}
+	//		if (MY_CHECK_RECT_COLL(PlayerRect, enemy[i].coll) == TRUE)
+	//		{
+	//			if (CheckSoundMem(PLAY_BGM.handle) != 0)
+	//			{
+	//				StopSoundMem(PLAY_BGM.handle);
+	//			}
 
-				GameEndkind = GAME_END_FAIL;
+	//			GameEndkind = GAME_END_FAIL;
 
-				GameScene = GAME_SCENE_END;
+	//			GameScene = GAME_SCENE_END;
 
-				return;
-			}
-		}
-	}
+	//			return;
+	//		}
+	//	}
+	//}
 
 	if (player.image.x > GAME_WIDTH || player.image.y > GAME_HEIGHT
 		|| player.image.x + player.image.width < 0 || player.image.y + player.image.height < 0)
@@ -1401,17 +1404,17 @@ VOID MY_PLAY_DRAW(VOID)
 				TRUE);
 
 			//デバッグモード
-			if (map[tate][yoko].kind == k)
-			{
-				DrawBox(
-					mapColl[tate][yoko].left,
-					mapColl[tate][yoko].top,
-					mapColl[tate][yoko].right,
-					mapColl[tate][yoko].bottom,
-					GetColor(255, 255, 255),
-					FALSE
-				);
-			}
+			//if (map[tate][yoko].kind == k)
+			//{
+			//	DrawBox(
+			//		mapColl[tate][yoko].left,
+			//		mapColl[tate][yoko].top,
+			//		mapColl[tate][yoko].right,
+			//		mapColl[tate][yoko].bottom,
+			//		GetColor(255, 255, 255),
+			//		FALSE
+			//	);
+			//}
 		}
 
 	}
@@ -1530,6 +1533,7 @@ VOID MY_END_DRAW(VOID)
 
 		DrawGraph(ImageEndCOMP.image.x, ImageEndCOMP.image.y, ImageEndCOMP.image.handle, TRUE);
 
+		//点滅
 		//if (ImageEndCOMP.IsDraw == TRUE)
 		//{
 		//	DrawGraph(ImageEndCOMP.image.x, ImageEndCOMP.image.y, ImageEndCOMP.image.handle, TRUE);
@@ -1540,6 +1544,7 @@ VOID MY_END_DRAW(VOID)
 
 		DrawGraph(ImageEndFAIL.image.x, ImageEndFAIL.image.y, ImageEndFAIL.image.handle, TRUE);
 
+		//点滅
 		//if (ImageEndFAIL.IsDraw == TRUE)
 		//{
 		//	DrawGraph(ImageEndFAIL.image.x, ImageEndFAIL.image.y, ImageEndFAIL.image.handle, TRUE);
@@ -1582,6 +1587,7 @@ BOOL MY_LOAD_IMAGE(VOID)
 	ImageTitleROGO.rate = 0.0;
 	ImageTitleROGO.rateMAX = IMAGE_TITLE_ROGO_ROTA_MAX;
 
+	//タイトル[Please Push Enetr]画像
 	strcpy_s(ImageTitleSTART.image.path, IMAGE_TITLE_PATH);					//パスの設定
 	ImageTitleSTART.image.handle = LoadGraph(ImageTitleSTART.image.path);			//読み込み
 	if (ImageTitleSTART.image.handle == -1)
@@ -1624,7 +1630,7 @@ BOOL MY_LOAD_IMAGE(VOID)
 	ImageStartSTART.CntMAX = IMAGE_TITLE_CNT_MAX;			//カウンタMAX
 	ImageStartSTART.IsDraw = FALSE;						//描画させない
 
-	//成功画像
+	//クリア画像
 	strcpy_s(ImageEndCOMP.image.path, IMAGE_END_COMP_PATH);
 	ImageEndCOMP.image.handle = LoadGraph(ImageEndCOMP.image.path);
 	if (ImageEndCOMP.image.handle == -1)
@@ -1653,8 +1659,6 @@ BOOL MY_LOAD_IMAGE(VOID)
 	ImageEndFAIL.Cnt = 0.0;
 	ImageEndFAIL.CntMAX = IMAGE_END_COMP_CNT_MAX;
 	ImageEndFAIL.IsDraw = FALSE;
-
-
 
 	strcpy_s(ImageBack[0].image.path, IMAGE_BACK_PATH);
 	strcpy_s(ImageBack[1].image.path, IMAGE_BACK_REV_PATH);
@@ -1703,22 +1707,22 @@ BOOL MY_LOAD_IMAGE(VOID)
 	player.CenterY = player.image.y + player.image.height / 2;
 	player.speed = CHARA_SPEED_HIGH;
 
-	for (int i = 0; i < ENEMY_MAX; i++)
-	{
-		strcpy_s(enemy[i].image.path, IMAGE_ENEMY_PATH);
-		enemy[i].image.handle = LoadGraph(enemy[i].image.path);
-		if (enemy[i].image.handle == -1)
-		{
-			MessageBox(GetMainWindowHandle(), IMAGE_ENEMY_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
-			return(FALSE);
-		}
-		GetGraphSize(enemy[i].image.handle, &enemy[i].image.width, &enemy[i].image.height);
-		enemy[i].image.x = GAME_WIDTH / 2 - enemy[i].image.width / 2;
-		enemy[i].image.y = GAME_HEIGHT / 2 - enemy[i].image.height / 2;
-		enemy[i].CenterX = enemy[i].image.x + enemy[i].image.width / 2;
-		enemy[i].CenterY = enemy[i].image.y + enemy[i].image.height / 2;
-		enemy[i].speed = CHARA_SPEED_LOW;
-	}
+	//for (int i = 0; i < ENEMY_MAX; i++)
+	//{
+	//	strcpy_s(enemy[i].image.path, IMAGE_ENEMY_PATH);
+	//	enemy[i].image.handle = LoadGraph(enemy[i].image.path);
+	//	if (enemy[i].image.handle == -1)
+	//	{
+	//		MessageBox(GetMainWindowHandle(), IMAGE_ENEMY_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
+	//		return(FALSE);
+	//	}
+	//	GetGraphSize(enemy[i].image.handle, &enemy[i].image.width, &enemy[i].image.height);
+	//	enemy[i].image.x = GAME_WIDTH / 2 - enemy[i].image.width / 2;
+	//	enemy[i].image.y = GAME_HEIGHT / 2 - enemy[i].image.height / 2;
+	//	enemy[i].CenterX = enemy[i].image.x + enemy[i].image.width / 2;
+	//	enemy[i].CenterY = enemy[i].image.y + enemy[i].image.height / 2;
+	//	enemy[i].speed = CHARA_SPEED_LOW;
+	//}
 
 	int mapRes = LoadDivGraph(
 		GAME_MAP_PATH,
@@ -1772,62 +1776,6 @@ BOOL MY_LOAD_IMAGE(VOID)
 
 	GetGraphSize(mapChip.handle[0], &mapChip.width, &mapChip.height);
 
-	//for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
-	//{
-	//	for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
-	//	{
-	//		mapDataInit[tate][yoko] = mapData_2[tate][yoko];
-
-	//		map[tate][yoko].kind = mapData_2[tate][yoko];
-
-	//		map[tate][yoko].width = mapChip.width;
-	//		map[tate][yoko].height = mapChip.height;
-
-	//		map[tate][yoko].x = yoko * map[tate][yoko].width;
-	//		map[tate][yoko].y = tate * map[tate][yoko].height;
-
-	//	}
-
-	//}
-
-	//for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
-	//{
-	//	for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
-	//	{
-	//		mapColl[tate][yoko].left = (yoko + 0) * mapChip.width + 1;
-	//		mapColl[tate][yoko].top = (tate + 0) * mapChip.height + 1;
-	//		mapColl[tate][yoko].right = (yoko + 1) * mapChip.width - 1;
-	//		mapColl[tate][yoko].bottom = (tate + 1) * mapChip.height - 1;
-	//	}
-
-	//}
-
-	//if (mapRes == -1)
-	//{
-	//	MessageBox(GetMainWindowHandle(), GAME_MAP_PATH, IMAGE_LOAD_ERR_TITLE, MB_OK);
-	//	return FALSE;
-	//}
-
-	//GetGraphSize(mapChip.handle[0], &mapChip.width, &mapChip.height);
-
-	//for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
-	//{
-	//	for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
-	//	{
-	//		mapDataInit[tate][yoko] = mapData_3[tate][yoko];
-
-	//		map[tate][yoko].kind = mapData_3[tate][yoko];
-
-	//		map[tate][yoko].width = mapChip.width;
-	//		map[tate][yoko].height = mapChip.height;
-
-	//		map[tate][yoko].x = yoko * map[tate][yoko].width;
-	//		map[tate][yoko].y = tate * map[tate][yoko].height;
-
-	//	}
-
-	//}
-
 	for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
 	{
 		for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
@@ -1863,7 +1811,7 @@ VOID MY_DELETE_IMAGE(VOID)
 	DeleteGraph(ImageEndFAIL.image.handle);
 
 
-	for (int i_num = 0; i_num < MAP_DIV_NUM; i_num++) { DeleteGraph(mapChip.handle[i_num]); }
+	//for (int i_num = 0; i_num < MAP_DIV_NUM; i_num++) { DeleteGraph(mapChip.handle[i_num]); }
 
 	return;
 }
