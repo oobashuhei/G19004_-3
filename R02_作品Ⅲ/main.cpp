@@ -1165,7 +1165,7 @@ VOID MY_PLAY_PROC(VOID)
 		//マップが動いた数＝プレイヤーが動いた数
 		player.mapDis += player.speed;
 
-		//マップの当たり判定プレイヤーが動いた数だけ動く
+		//マップの描画がプレイヤーが動いた数だけ動く
 		for (int tate = 0; tate < GAME_MAP_TATE_MAX; tate++)
 		{
 			for (int yoko = 0; yoko < GAME_MAP_YOKO_MAX; yoko++)
@@ -1194,8 +1194,6 @@ VOID MY_PLAY_PROC(VOID)
 				{
 					mapColl[tate][yoko].left += player.speed;
 					mapColl[tate][yoko].right += player.speed;
-
-
 				}
 			}
 		}
