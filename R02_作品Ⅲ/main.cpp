@@ -78,7 +78,7 @@
 #define ENEMY_MAX              10
 
 #define GAME_MAP_TATE_MAX      9
-#define GAME_MAP_YOKO_MAX      75
+#define GAME_MAP_YOKO_MAX      85
 #define GAME_MAP_KIND_MAX      3
 
 #define GAME_MAP_PATH          TEXT(".\\MAP\\map.png")
@@ -318,40 +318,43 @@ MUSIC BGM_FAIL;
 GAME_STAGE GameStage;
 
 
-GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,k,k,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,k,t,t,t,k,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,k,t,t,t,t,t,t,k,k,t,t,t,t,k,k,k,k,k,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,k,t,t,t,t,t,k,k,t,t,t,t,t,t,k,t,t,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,k,k,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,t,t,t,t,t,t,t,t,t,k,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
-	k,t,t,t,t,t,t,s,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,k,g,k,k,k,k,k,
-	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,k,k,t,k,t,k,t,k,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k
+GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]
+{
+	w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
+	w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
+	w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,w,t,t,t,w,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,w,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
+	w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,w,w,t,t,t,t,t,t,w,w,t,t,t,t,w,w,w,w,w,w,t,t,w,t,t,t,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
+	w,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,w,t,t,t,w,t,t,t,t,t,w,w,t,t,t,t,t,t,w,t,t,w,t,t,t,w,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
+	w,t,t,t,t,t,t,t,t,t,t,t,w,w,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,w,w,t,t,t,t,t,t,t,t,t,w,w,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,w,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
+	w,t,t,t,t,t,t,s,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,w,t,t,w,t,t,t,w,g,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
+	w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,t,t,t,k,t,w,t,t,t,w,t,w,t,t,w,t,t,w,t,t,w,w,w,w,t,t,t,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,t,t,t,w,w,w,w,t,t,t,w,w,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
+	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,t,k,t,w,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k
 };
 
-//GAME_MAP_KIND mapData_2[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-//	w,w,w,w,w,w,w,w,w,w,w,s,w,w,w,
-//	w,t,t,t,t,t,t,t,t,t,t,t,t,t,w,
-//	w,t,t,t,w,w,w,t,t,e,w,w,w,t,w,
-//	t,t,e,t,t,t,w,t,t,w,t,t,w,t,w,
-//	w,w,w,t,t,t,w,t,w,w,w,t,t,t,w,
-//	w,t,t,t,e,t,w,t,w,t,w,t,t,t,w,
-//	w,t,t,e,w,w,t,t,t,t,t,t,e,t,w,
-//	w,g,w,w,t,t,t,w,t,t,t,t,t,w,w,
-//	w,w,t,t,t,t,t,t,w,w,w,w,w,w,w
+//GAME_MAP_KIND mapData_2[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]
+//{
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,k,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,k,t,t,t,t,t,t,k,k,t,t,t,t,k,k,k,k,k,k,t,t,k,t,t,t,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,k,t,t,t,k,t,t,t,t,t,k,k,t,t,t,t,t,t,k,t,t,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,k,k,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,t,t,t,t,t,t,t,t,t,k,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,k,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,s,t,t,e,k,k,k,k,k,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,k,g,k,k,k,k,k,
+//	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,t,k,t,t,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,
+//	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,t,k,t,k,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k
 //};
 
-//GAME_MAP_KIND mapData_3[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]{
-//	k,k,k,k,k,k,k,k,k,k,k,g,k,k,k,
-//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,k,
-//	k,t,t,t,k,k,k,t,t,e,k,k,k,t,k,
-//	k,t,e,t,t,t,k,t,t,k,t,t,k,t,k,
-//	k,k,k,t,t,t,k,t,k,t,k,t,t,t,k,
-//	k,t,t,t,e,t,k,t,k,t,k,t,t,t,k,
-//	k,t,t,e,k,k,t,t,t,t,t,t,e,t,k,
-//	k,s,k,k,t,t,t,k,t,t,t,t,t,k,k,
-//	k,k,t,t,t,t,t,t,k,k,k,k,k,k,k
+//GAME_MAP_KIND mapData_3[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]
+//{
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,k,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,k,k,t,t,t,t,t,t,k,k,t,t,t,t,k,k,k,k,k,k,t,t,k,t,t,t,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,k,t,t,t,k,t,t,t,t,t,k,k,t,t,t,t,t,t,k,t,t,k,t,t,t,k,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,t,t,t,t,t,k,k,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,k,k,t,t,t,t,t,t,t,t,t,k,k,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,k,k,t,k,k,k,k,k,
+//	k,t,t,t,t,t,t,s,t,t,e,k,k,k,k,k,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,t,t,k,t,t,t,t,t,t,t,t,t,k,t,t,k,t,t,t,k,g,k,k,k,k,k,
+//	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,t,k,t,t,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,
+//	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,t,k,t,k,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k
 //};
 
 GAME_MAP_KIND mapDataInit[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX];
@@ -394,14 +397,6 @@ VOID MY_START_DRAW(VOID);
 VOID MY_PLAY(VOID);
 VOID MY_PLAY_PROC(VOID);
 VOID MY_PLAY_DRAW(VOID);
-
-//VOID MY_PLAY_2(VOID);
-//VOID MY_PLAY_PROC_2(VOID);
-//VOID MY_PLAY_DRAW_2(VOID);
-//
-//VOID MY_PLAY_3(VOID);
-//VOID MY_PLAY_PROC_3(VOID);
-//VOID MY_PLAY_DRAW_3(VOID);
 
 VOID MY_END(VOID);
 VOID MY_END_PROC(VOID);
@@ -528,14 +523,6 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpCmdLine
 		case GAME_SCENE_PLAY:
 			MY_PLAY();
 			break;
-
-			//case GAME_SCENE_PLAY_2:
-			//	MY_PLAY_2();
-			//	break;
-
-			//case GAME_SCENE_PLAY_3:
-			//	MY_PLAY_3();
-			//	break;
 
 		case GAME_SCENE_END:
 			MY_END();
@@ -925,6 +912,8 @@ VOID MY_START_PROC(VOID)
 		player.collBeforePt.x = player.CenterX;
 		player.collBeforePt.y = player.CenterY;
 
+		player.IsJump = FALSE;
+
 		//マップの移動した距離初期化
 		player.mapDis = 0;
 
@@ -1075,18 +1064,6 @@ VOID MY_PLAY_PROC(VOID)
 	player.coll.right = player.CenterX + mapChip.width / 2 - 5;
 	player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
 
-	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
-	{
-		//プレイヤーを上に押し上げる
-		player.CenterY -= GAME_GR;
-
-		//押し上げるプレイヤーの当たり判定
-		player.coll.left = player.CenterX - mapChip.width / 2 + 5;
-		player.coll.top = player.CenterY - mapChip.height / 2 + 5;
-		player.coll.right = player.CenterX + mapChip.width / 2 - 5;
-		player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
-	}
-
 
 	//ジャンプ処理
 	if (MY_KEY_DOWN(KEY_INPUT_W) == TRUE)
@@ -1155,6 +1132,22 @@ VOID MY_PLAY_PROC(VOID)
 				player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
 			}
 			player.IsJump = FALSE;
+		}
+	}
+
+	//playerがマップの上に乗ったとき６
+	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
+	{
+		while (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
+		{
+			//playerを上に押し上げる
+			player.CenterY--;
+
+			//当たり判定も押し戻す
+			player.coll.left = player.CenterX - mapChip.width / 2 + 5;
+			player.coll.top = player.CenterY - mapChip.height / 2 + 5;
+			player.coll.right = player.CenterX + mapChip.width / 2 - 5;
+			player.coll.bottom = player.CenterY + mapChip.height / 2 - 5;
 		}
 	}
 
@@ -1302,22 +1295,22 @@ VOID MY_PLAY_PROC(VOID)
 
 	//for (int i = 0; i < enemyCnt; i++)
 	//{
-	//	if (enemy[i].view == TRUE)
-	//	{
-	//		//敵が動いて壁に当たったとき
-	//		enemy[i].CenterX += enemy[i].Moveadd;
-	//		if (MY_CHECK_MAP1_PLAYER_COLL(enemy[i].coll) == TRUE)
-	//		{
-	//			enemy[i].CenterX -= enemy[i].Moveadd * 2;
-	//			enemy[i].Moveadd *= -1;
-	//		}
+	//	//if (enemy[i].view == TRUE)
+	//	//{
+	//	//	//敵移動
+	//	//	enemy[i].CenterX += enemy[i].Moveadd;
+	//	//	if (MY_CHECK_MAP1_PLAYER_COLL(enemy[i].coll) == TRUE)
+	//	//	{
+	//	//		enemy[i].CenterX -= enemy[i].Moveadd * 2;
+	//	//		enemy[i].Moveadd *= -1;
+	//	//	}
 	//		//敵の当たり判定
 	//		enemy[i].coll.left = enemy[i].CenterX - mapChip.width / 2 + 5;
 	//		enemy[i].coll.top = enemy[i].CenterY - mapChip.height / 2 + 5;
 	//		enemy[i].coll.right = enemy[i].CenterX + mapChip.width / 2 - 5;
 	//		enemy[i].coll.bottom = enemy[i].CenterY + mapChip.height / 2 - 5;
 
-	//		//敵の移動
+	//		//敵の描画
 	//		if (enemy[i].image.x >= 0 && enemy[i].image.x < GAME_WIDTH)
 	//		{
 	//			enemy[i].image.x = enemy[i].CenterX - enemy[i].image.width / 2;
@@ -1340,7 +1333,7 @@ VOID MY_PLAY_PROC(VOID)
 
 	//			return;
 	//		}
-	//	}
+	//	//}
 	//}
 
 	if (player.image.x > GAME_WIDTH || player.image.y > GAME_HEIGHT
@@ -1401,8 +1394,20 @@ VOID MY_PLAY_DRAW(VOID)
 				mapChip.handle[map[tate][yoko].kind],
 				TRUE);
 
-			//デバッグモード
+			////マップのデバッグモード
 			//if (map[tate][yoko].kind == k)
+			//{
+			//	DrawBox(
+			//		mapColl[tate][yoko].left,
+			//		mapColl[tate][yoko].top,
+			//		mapColl[tate][yoko].right,
+			//		mapColl[tate][yoko].bottom,
+			//		GetColor(255, 255, 255),
+			//		FALSE
+			//	);
+			//}
+
+			//if (map[tate][yoko].kind == w)
 			//{
 			//	DrawBox(
 			//		mapColl[tate][yoko].left,
@@ -1419,12 +1424,22 @@ VOID MY_PLAY_DRAW(VOID)
 
 	DrawGraph(player.image.x, player.image.y, player.image.handle, TRUE);
 
-	for (int i = 0; i < enemyCnt; i++)
-	{
-		if (enemy[i].view == TRUE) {
-			DrawGraph(enemy[i].image.x, enemy[i].image.y, enemy[i].image.handle, TRUE);
-		}
-	}
+	////player当たり判定
+	//		DrawBox(
+	//			player.coll.left,
+	//			player.coll.top,
+	//			player.coll.right,
+	//			player.coll.bottom,
+	//			GetColor(255, 255, 255),
+	//			FALSE
+	//		);
+
+	//for (int i = 0; i < enemyCnt; i++)
+	//{
+	//	if (enemy[i].view == TRUE) {
+	//		DrawGraph(enemy[i].image.x, enemy[i].image.y, enemy[i].image.handle, TRUE);
+	//	}
+	//}
 	return;
 }
 
@@ -1799,7 +1814,7 @@ VOID MY_DELETE_IMAGE(VOID)
 	}
 	DeleteGraph(player.image.handle);
 
-	for (int i = 0; i < ENEMY_MAX; i++)DeleteGraph(enemy[i].image.handle);
+	//for (int i = 0; i < ENEMY_MAX; i++)DeleteGraph(enemy[i].image.handle);
 
 	DeleteGraph(ImageTitleBk.handle);
 	DeleteGraph(ImageTitleROGO.image.handle);
@@ -1879,7 +1894,7 @@ BOOL MY_CHECK_MAP1_PLAYER_COLL(RECT player)
 		{
 			if (MY_CHECK_RECT_COLL(player, mapColl[tate][yoko]) == TRUE)
 			{
-				if (map[tate][yoko].kind == k) { return TRUE; }
+				if (map[tate][yoko].kind == w) { return TRUE; }
 			}
 		}
 	}
