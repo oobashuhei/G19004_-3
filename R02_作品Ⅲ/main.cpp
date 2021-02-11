@@ -104,6 +104,10 @@
 //重力
 #define GAME_GR		9
 
+//制限時間
+int TimeCou = 0;
+#define GAME_TIME_LIMIT	10
+
 enum GAME_MAP_KIND
 {
 	n = -1,
@@ -566,6 +570,9 @@ VOID MY_FPS_UPDATE(VOID)
 		CountFps = 0;
 		StartTimeFps = now;
 	}
+	//制限時間のカウントを進める
+	TimeCou++;
+
 	CountFps++;
 	return;
 }
@@ -916,6 +923,9 @@ VOID MY_START_PROC(VOID)
 
 		//マップの移動した距離初期化
 		player.mapDis = 0;
+
+		//制限時間の初期化
+		TimeCou = 0;
 
 		//敵の場所初期化
 		//for (int i = 0; i < enemyCnt; i++)
@@ -1293,48 +1303,59 @@ VOID MY_PLAY_PROC(VOID)
 		return;
 	}
 
-	//for (int i = 0; i < enemyCnt; i++)
-	//{
-	//	//if (enemy[i].view == TRUE)
-	//	//{
-	//	//	//敵移動
-	//	//	enemy[i].CenterX += enemy[i].Moveadd;
-	//	//	if (MY_CHECK_MAP1_PLAYER_COLL(enemy[i].coll) == TRUE)
-	//	//	{
-	//	//		enemy[i].CenterX -= enemy[i].Moveadd * 2;
-	//	//		enemy[i].Moveadd *= -1;
-	//	//	}
-	//		//敵の当たり判定
-	//		enemy[i].coll.left = enemy[i].CenterX - mapChip.width / 2 + 5;
-	//		enemy[i].coll.top = enemy[i].CenterY - mapChip.height / 2 + 5;
-	//		enemy[i].coll.right = enemy[i].CenterX + mapChip.width / 2 - 5;
-	//		enemy[i].coll.bottom = enemy[i].CenterY + mapChip.height / 2 - 5;
+	//制限時間エンド画面へ移行
+	if (TimeCou / GAME_FPS >= GAME_TIME_LIMIT)
+	{
+		if (CheckSoundMem(PLAY_BGM.handle) != 0)
+		{
+		//for (int i = 0; i < enemyCnt; i++)
+		//{
+		//	//if (enemy[i].view == TRUE)
+		//	//{
+		//	//	//敵移動
+		//	//	enemy[i].CenterX += enemy[i].Moveadd;
+		//	//	if (MY_CHECK_MAP1_PLAYER_COLL(enemy[i].coll) == TRUE)
+		//	//	{
+		//	//		enemy[i].CenterX -= enemy[i].Moveadd * 2;
+		//	//		enemy[i].Moveadd *= -1;
+		//	//	}
+		//		//敵の当たり判定
+		//		enemy[i].coll.left = enemy[i].CenterX - mapChip.width / 2 + 5;
+		//		enemy[i].coll.top = enemy[i].CenterY - mapChip.height / 2 + 5;
+		//		enemy[i].coll.right = enemy[i].CenterX + mapChip.width / 2 - 5;
+		//		enemy[i].coll.bottom = enemy[i].CenterY + mapChip.height / 2 - 5;
 
-	//		//敵の描画
-	//		if (enemy[i].image.x >= 0 && enemy[i].image.x < GAME_WIDTH)
-	//		{
-	//			enemy[i].image.x = enemy[i].CenterX - enemy[i].image.width / 2;
-	//			enemy[i].image.y = enemy[i].CenterY - enemy[i].image.height / 2;
+		//		//敵の描画
+		//		if (enemy[i].image.x >= 0 && enemy[i].image.x < GAME_WIDTH)
+		//		{
+		//			enemy[i].image.x = enemy[i].CenterX - enemy[i].image.width / 2;
+		//			enemy[i].image.y = enemy[i].CenterY - enemy[i].image.height / 2;
 
-	//			enemy[i].collBeforePt.x = enemy[i].CenterX;
-	//			enemy[i].collBeforePt.y = enemy[i].CenterY;
-	//		}
+		//			enemy[i].collBeforePt.x = enemy[i].CenterX;
+		//			enemy[i].collBeforePt.y = enemy[i].CenterY;
+		//		}
 
-	//		if (MY_CHECK_RECT_COLL(PlayerRect, enemy[i].coll) == TRUE)
-	//		{
-	//			if (CheckSoundMem(PLAY_BGM.handle) != 0)
-	//			{
-	//				StopSoundMem(PLAY_BGM.handle);
-	//			}
+		//		if (MY_CHECK_RECT_COLL(PlayerRect, enemy[i].coll) == TRUE)
+		//		{
+		//			if (CheckSoundMem(PLAY_BGM.handle) != 0)
+		//			{
+		//				StopSoundMem(PLAY_BGM.handle);
+		//			}
 
-	//			GameEndkind = GAME_END_FAIL;
+		//			GameEndkind = GAME_END_FAIL;
 
-	//			GameScene = GAME_SCENE_END;
+		//			GameScene = GAME_SCENE_END;
 
-	//			return;
-	//		}
-	//	//}
-	//}
+		//			return;
+		//		}
+		//	//}
+		//}
+			StopSoundMem(PLAY_BGM.handle);
+		}
+		GameEndkind = GAME_END_FAIL;
+
+		GameScene = GAME_SCENE_END;
+	}
 
 	if (player.image.x > GAME_WIDTH || player.image.y > GAME_HEIGHT
 		|| player.image.x + player.image.width < 0 || player.image.y + player.image.height < 0)
@@ -1369,11 +1390,15 @@ VOID MY_PLAY_PROC(VOID)
 			ImageBack[num].IsDraw = FALSE;
 		}
 	}
+
+
+
 	return;
 }
 
 VOID MY_PLAY_DRAW(VOID)
 {
+	DrawFormatString(0, 0, GetColor(255, 255, 255), "TIME:%d", GAME_TIME_LIMIT - TimeCou / GAME_FPS);
 
 	for (int num = 0; num < IMAGE_BACK_NUM; num++)
 	{
