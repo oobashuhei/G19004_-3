@@ -53,7 +53,7 @@
 #define IMAGE_TITLE_CNT_MAX	30
 
 //クリア画像
-#define IMAGE_END_COMP_PATH       TEXT(".\\IMAGE\\GAME_CLEAR.jpg")
+#define IMAGE_END_COMP_PATH       TEXT(".\\IMAGE\\GAME_CLEAR.png")
 #define IMAGE_END_COMP_CNT        1
 #define IMAGE_END_COMP_CNT_MAX    30
 
@@ -78,7 +78,7 @@
 #define ENEMY_MAX              10
 
 #define GAME_MAP_TATE_MAX      9
-#define GAME_MAP_YOKO_MAX      85
+#define GAME_MAP_YOKO_MAX      80
 #define GAME_MAP_KIND_MAX      3
 
 #define GAME_MAP_PATH          TEXT(".\\MAP\\map.png")
@@ -106,7 +106,8 @@
 
 //制限時間
 int TimeCou = 0;
-#define GAME_TIME_LIMIT	10
+//ゲームの時間
+#define GAME_TIME_LIMIT	120
 
 enum GAME_MAP_KIND
 {
@@ -115,8 +116,10 @@ enum GAME_MAP_KIND
 	w = 1,
 	k = 2,
 	g = 3,
-	s = 10,
-	e = 5
+	s = 12,
+	e = 5,
+	a=10,
+	b=11
 };
 
 enum GAME_SCENE {
@@ -324,15 +327,15 @@ GAME_STAGE GameStage;
 
 GAME_MAP_KIND mapData[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]
 {
-	w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
-	w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
-	w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,w,t,t,t,w,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,w,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
-	w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,w,w,t,t,t,t,t,t,w,w,t,t,t,t,w,w,w,w,w,w,t,t,w,t,t,t,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
-	w,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,w,t,t,t,w,t,t,t,t,t,w,w,t,t,t,t,t,t,w,t,t,w,t,t,t,w,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
-	w,t,t,t,t,t,t,t,t,t,t,t,w,w,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,w,w,t,t,t,t,t,t,t,t,t,w,w,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,w,w,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
-	w,t,t,t,t,t,t,s,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,w,t,t,w,t,t,t,w,g,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
-	w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,t,t,t,k,t,w,t,t,t,w,t,w,t,t,w,t,t,w,t,t,w,w,w,w,t,t,t,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,t,t,t,w,w,w,w,t,t,t,w,w,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,
-	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,t,k,t,w,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,k,k,k,t,t,t,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k
+	t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,w,w,w,w,w,
+	t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,w,w,w,w,w,
+	t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,w,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,w,w,t,w,t,t,t,t,t,t,t,t,t,w,t,w,w,w,w,w,
+	t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,w,w,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,w,w,t,w,w,w,w,w,
+	t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,w,t,t,t,w,t,t,t,t,t,w,w,t,t,t,t,t,t,w,t,t,w,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,w,t,t,t,t,t,t,t,t,t,t,t,w,t,w,w,w,w,w,
+	a,t,t,t,t,t,t,t,t,t,t,t,w,w,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,w,w,t,t,t,t,t,t,t,w,t,w,t,t,t,w,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,w,t,t,w,t,w,w,w,w,w,
+	b,t,t,t,t,t,t,s,t,t,t,w,w,w,w,w,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,w,t,w,t,t,t,t,w,t,t,t,t,t,w,w,g,w,w,w,w,w,
+	w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,t,t,t,k,t,w,t,t,t,w,t,w,t,t,w,t,t,w,t,t,w,w,w,w,t,t,t,t,t,t,t,w,t,t,t,w,t,t,t,t,t,t,t,t,t,w,t,t,w,t,t,t,t,w,t,t,t,w,w,w,w,w,w,w,
+	k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,t,t,t,k,t,k,t,w,t,k,t,k,t,t,k,t,t,k,t,t,k,k,k,k,t,t,t,w,w,w,t,t,t,w,t,t,t,t,w,t,t,w,t,t,t,w,w,w,w,t,t,t,t,t,t,t,t,k,k,w,w,w,w,w
 };
 
 //GAME_MAP_KIND mapData_2[GAME_MAP_TATE_MAX][GAME_MAP_YOKO_MAX]
@@ -579,6 +582,9 @@ VOID MY_FPS_UPDATE(VOID)
 
 VOID MY_FPS_DRAW(VOID)
 {
+	//プレイ時間の文字描画
+	DrawFormatString(70, 540, GetColor(255, 255, 255), "TIME:%d", GAME_TIME_LIMIT - TimeCou / GAME_FPS);
+
 	DrawFormatString(0, GAME_HEIGHT - 20, GetColor(255, 255, 255), "FPS:%.1f", CalcFps);
 	return;
 }
@@ -873,11 +879,11 @@ VOID MY_TITLE_DRAW(VOID)
 		DrawGraph(ImageTitleSTART.image.x, ImageTitleSTART.image.y, ImageTitleSTART.image.handle, TRUE);
 	}
 
-	DrawString(0, 0, "スタート画面(エンターキーを押して下さい)", GetColor(255, 255, 255));
+	//DrawString(0, 0, "スタート画面(エンターキーを押して下さい)", GetColor(255, 255, 255));
 	return;
 }
 
-//スタート画面
+//操作画面
 VOID MY_START(VOID)
 {
 	MY_START_PROC();
@@ -1025,7 +1031,7 @@ VOID MY_START_DRAW(VOID)
 		DrawGraph(ImageStartSTART.image.x, ImageStartSTART.image.y, ImageStartSTART.image.handle, TRUE);
 	}
 
-	DrawString(0, 0, "スタート画面(Sキーを押してください)", GetColor(255, 255, 255));
+	//DrawString(0, 0, "スタート画面(Sキーを押してください)", GetColor(255, 255, 255));
 
 	return;
 }
@@ -1076,6 +1082,7 @@ VOID MY_PLAY_PROC(VOID)
 
 
 	//ジャンプ処理
+	//もしジャンプしているなら
 	if (MY_KEY_DOWN(KEY_INPUT_W) == TRUE)
 	{
 		//もしジャンプしてないとき
@@ -1145,9 +1152,11 @@ VOID MY_PLAY_PROC(VOID)
 		}
 	}
 
-	//playerがマップの上に乗ったとき６
+	//playerがマップの上に乗ったとき
+	//地面に当たっている時
 	if (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
 	{
+		//地面にめり込んでいるなら上に押し戻す
 		while (MY_CHECK_MAP1_PLAYER_COLL(player.coll) == TRUE)
 		{
 			//playerを上に押し上げる
@@ -1398,7 +1407,7 @@ VOID MY_PLAY_PROC(VOID)
 
 VOID MY_PLAY_DRAW(VOID)
 {
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "TIME:%d", GAME_TIME_LIMIT - TimeCou / GAME_FPS);
+
 
 	for (int num = 0; num < IMAGE_BACK_NUM; num++)
 	{
@@ -1420,44 +1429,44 @@ VOID MY_PLAY_DRAW(VOID)
 				TRUE);
 
 			////マップのデバッグモード
-			//if (map[tate][yoko].kind == k)
-			//{
-			//	DrawBox(
-			//		mapColl[tate][yoko].left,
-			//		mapColl[tate][yoko].top,
-			//		mapColl[tate][yoko].right,
-			//		mapColl[tate][yoko].bottom,
-			//		GetColor(255, 255, 255),
-			//		FALSE
-			//	);
-			//}
+			if (map[tate][yoko].kind == k)
+			{
+				DrawBox(
+					mapColl[tate][yoko].left,
+					mapColl[tate][yoko].top,
+					mapColl[tate][yoko].right,
+					mapColl[tate][yoko].bottom,
+					GetColor(255, 255, 255),
+					FALSE
+				);
+			}
 
-			//if (map[tate][yoko].kind == w)
-			//{
-			//	DrawBox(
-			//		mapColl[tate][yoko].left,
-			//		mapColl[tate][yoko].top,
-			//		mapColl[tate][yoko].right,
-			//		mapColl[tate][yoko].bottom,
-			//		GetColor(255, 255, 255),
-			//		FALSE
-			//	);
-			//}
+			if (map[tate][yoko].kind == w)
+			{
+				DrawBox(
+					mapColl[tate][yoko].left,
+					mapColl[tate][yoko].top,
+					mapColl[tate][yoko].right,
+					mapColl[tate][yoko].bottom,
+					GetColor(255, 255, 255),
+					FALSE
+				);
+			}
 		}
 
 	}
 
 	DrawGraph(player.image.x, player.image.y, player.image.handle, TRUE);
 
-	////player当たり判定
-	//		DrawBox(
-	//			player.coll.left,
-	//			player.coll.top,
-	//			player.coll.right,
-	//			player.coll.bottom,
-	//			GetColor(255, 255, 255),
-	//			FALSE
-	//		);
+	//player当たり判定
+			DrawBox(
+				player.coll.left,
+				player.coll.top,
+				player.coll.right,
+				player.coll.bottom,
+				GetColor(255, 255, 255),
+				FALSE
+			);
 
 	//for (int i = 0; i < enemyCnt; i++)
 	//{
