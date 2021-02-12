@@ -107,7 +107,7 @@
 //制限時間
 int TimeCou = 0;
 //ゲームの時間
-#define GAME_TIME_LIMIT	120
+#define GAME_TIME_LIMIT	10
 
 enum GAME_MAP_KIND
 {
@@ -1428,30 +1428,30 @@ VOID MY_PLAY_DRAW(VOID)
 				mapChip.handle[map[tate][yoko].kind],
 				TRUE);
 
-			////マップのデバッグモード
-			if (map[tate][yoko].kind == k)
-			{
-				DrawBox(
-					mapColl[tate][yoko].left,
-					mapColl[tate][yoko].top,
-					mapColl[tate][yoko].right,
-					mapColl[tate][yoko].bottom,
-					GetColor(255, 255, 255),
-					FALSE
-				);
-			}
+			//マップのデバッグモード
+			//if (map[tate][yoko].kind == k)
+			//{
+			//	DrawBox(
+			//		mapColl[tate][yoko].left,
+			//		mapColl[tate][yoko].top,
+			//		mapColl[tate][yoko].right,
+			//		mapColl[tate][yoko].bottom,
+			//		GetColor(255, 255, 255),
+			//		FALSE
+			//	);
+			//}
 
-			if (map[tate][yoko].kind == w)
-			{
-				DrawBox(
-					mapColl[tate][yoko].left,
-					mapColl[tate][yoko].top,
-					mapColl[tate][yoko].right,
-					mapColl[tate][yoko].bottom,
-					GetColor(255, 255, 255),
-					FALSE
-				);
-			}
+			//if (map[tate][yoko].kind == w)
+			//{
+			//	DrawBox(
+			//		mapColl[tate][yoko].left,
+			//		mapColl[tate][yoko].top,
+			//		mapColl[tate][yoko].right,
+			//		mapColl[tate][yoko].bottom,
+			//		GetColor(255, 255, 255),
+			//		FALSE
+			//	);
+			//}
 		}
 
 	}
@@ -1459,14 +1459,14 @@ VOID MY_PLAY_DRAW(VOID)
 	DrawGraph(player.image.x, player.image.y, player.image.handle, TRUE);
 
 	//player当たり判定
-			DrawBox(
-				player.coll.left,
-				player.coll.top,
-				player.coll.right,
-				player.coll.bottom,
-				GetColor(255, 255, 255),
-				FALSE
-			);
+			//DrawBox(
+			//	player.coll.left,
+			//	player.coll.top,
+			//	player.coll.right,
+			//	player.coll.bottom,
+			//	GetColor(255, 255, 255),
+			//	FALSE
+			//);
 
 	//for (int i = 0; i < enemyCnt; i++)
 	//{
