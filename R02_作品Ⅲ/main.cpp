@@ -558,6 +558,8 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpCmdLine
 	return 0;
 }
 
+//FPS値をカウント
+//制限時間もカウント
 VOID MY_FPS_UPDATE(VOID)
 {
 	if (CountFps == 0)
@@ -580,6 +582,7 @@ VOID MY_FPS_UPDATE(VOID)
 	return;
 }
 
+//FPS,制限時間を描画
 VOID MY_FPS_DRAW(VOID)
 {
 	//プレイ時間の文字描画
@@ -589,6 +592,7 @@ VOID MY_FPS_DRAW(VOID)
 	return;
 }
 
+//待ち時間
 VOID MY_FPS_WAIT(VOID)
 {
 	int resultTime = GetNowCount() - StartTimeFps;
@@ -601,6 +605,7 @@ VOID MY_FPS_WAIT(VOID)
 	return;
 }
 
+//キーを押しているか
 VOID MY_ALL_KEYDOWN_UPDATE(VOID)
 {
 	char TempKey[256];
@@ -625,6 +630,8 @@ VOID MY_ALL_KEYDOWN_UPDATE(VOID)
 	}
 	return;
 }
+
+//キーを押し下げている
 BOOL MY_KEY_DOWN(int KEY_INPUT_)
 {
 	if (AllKeyState[KEY_INPUT_] != 0)
@@ -637,6 +644,7 @@ BOOL MY_KEY_DOWN(int KEY_INPUT_)
 	}
 }
 
+//キーを上げたとき
 BOOL MY_KEY_UP(int KEY_INPUT_)
 {
 	if (OldAllKeyState[KEY_INPUT_] >= 1
@@ -650,6 +658,7 @@ BOOL MY_KEY_UP(int KEY_INPUT_)
 	}
 }
 
+//キーを押し続けている
 BOOL MY_KEYDOWN_KEEP(int KEY_INPUT_, int DownTime)
 {
 	int UpdateTime = DownTime * GAME_FPS;
@@ -664,6 +673,7 @@ BOOL MY_KEYDOWN_KEEP(int KEY_INPUT_, int DownTime)
 	}
 }
 
+//マウス
 VOID MY_MOUSE_UPDATE(VOID)
 {
 	mouse.OldPoint = mouse.Point;
@@ -691,6 +701,7 @@ VOID MY_MOUSE_UPDATE(VOID)
 	return;
 }
 
+//マウスをおしたとき　
 BOOL MY_MOUSE_DOWN(int MOUSE_INPUT_)
 {
 	if (mouse.Button[MOUSE_INPUT_] != 0)
@@ -703,6 +714,7 @@ BOOL MY_MOUSE_DOWN(int MOUSE_INPUT_)
 	}
 }
 
+//マウスを上げたとき
 BOOL MY_MOUSE_UP(int MOUSE_INPUT_)
 {
 	if (mouse.OldButton[MOUSE_INPUT_] >= 1
@@ -716,6 +728,7 @@ BOOL MY_MOUSE_UP(int MOUSE_INPUT_)
 	}
 }
 
+//マウスを押し続けている時
 BOOL MY_MOUSEDOWN_KEEP(int MOUSE_INPUT_, int DownTime)
 {
 	int UpdateTime = DownTime * GAME_FPS;
@@ -730,6 +743,7 @@ BOOL MY_MOUSEDOWN_KEEP(int MOUSE_INPUT_, int DownTime)
 	}
 }
 
+//フォントDL
 BOOL MY_FONT_INSTALL_ONCE(VOID)
 {
 	if (AddFontResourceEx(FONT_TANU_PATH, FR_PRIVATE, NULL) == 0)
@@ -740,6 +754,7 @@ BOOL MY_FONT_INSTALL_ONCE(VOID)
 	return TRUE;
 }
 
+//アンチエイジアリング
 VOID MY_FONT_UNINSTALL_ONCE(VOID)
 {
 	RemoveFontResourceEx(FONT_TANU_PATH, FR_PRIVATE, NULL);
@@ -747,6 +762,7 @@ VOID MY_FONT_UNINSTALL_ONCE(VOID)
 	return;
 }
 
+//フォント一時的に作る
 BOOL MY_FONT_CREATE(VOID)
 {
 	strcpy_s(MS.path, sizeof(MS.path), FONT_TANU_PATH);
@@ -762,6 +778,7 @@ BOOL MY_FONT_CREATE(VOID)
 	return TRUE;
 }
 
+//フォントを消す
 VOID MY_FONT_DELETE(VOID)
 {
 	DeleteFontToHandle(MS.handle);
@@ -776,6 +793,7 @@ VOID MY_TITLE(VOID)
 	MY_TITLE_DRAW();
 }
 
+//タイトル処理
 VOID MY_TITLE_PROC(VOID)
 {
 	if (CheckSoundMem(BGM_TITLE.handle) == 0)
@@ -855,6 +873,7 @@ VOID MY_TITLE_PROC(VOID)
 	return;
 }
 
+//タイトル描画
 VOID MY_TITLE_DRAW(VOID)
 {
 	for (int num = 0; num < IMAGE_BACK_NUM; num++)
@@ -890,6 +909,7 @@ VOID MY_START(VOID)
 	MY_START_DRAW();
 }
 
+//操作画面処理
 VOID MY_START_PROC(VOID)
 {
 	if (CheckSoundMem(START_BGM.handle) == 0)
@@ -1016,6 +1036,7 @@ VOID MY_START_PROC(VOID)
 	return;
 }
 
+//操作画面描画
 VOID MY_START_DRAW(VOID)
 {
 	DrawGraph(ImageStart.x, ImageStart.y, ImageStart.handle, TRUE);
@@ -1043,6 +1064,7 @@ VOID MY_PLAY(VOID)
 	MY_PLAY_DRAW();
 }
 
+//プレイ画面処理
 VOID MY_PLAY_PROC(VOID)
 {
 	if (CheckSoundMem(PLAY_BGM.handle) == 0)
@@ -1405,6 +1427,7 @@ VOID MY_PLAY_PROC(VOID)
 	return;
 }
 
+//プレイ画面描画
 VOID MY_PLAY_DRAW(VOID)
 {
 
@@ -1477,12 +1500,14 @@ VOID MY_PLAY_DRAW(VOID)
 	return;
 }
 
+//エンド
 VOID MY_END(VOID)
 {
 	MY_END_PROC();
 	MY_END_DRAW();
 }
 
+//エンド画面処理
 VOID MY_END_PROC(VOID)
 {
 	//ESC押すとタイトルに戻る
@@ -1568,6 +1593,7 @@ VOID MY_END_PROC(VOID)
 	return;
 }
 
+//エンド画面描画
 VOID MY_END_DRAW(VOID)
 {
 	//DrawBox(10, 10, GAME_WIDTH - 10, GAME_HEIGHT - 10, GetColor(0, 0, 255), TRUE);
@@ -1604,6 +1630,7 @@ VOID MY_END_DRAW(VOID)
 	return;
 }
 
+//画像を読み込む
 BOOL MY_LOAD_IMAGE(VOID)
 {
 	//タイトル画面背景画像
@@ -1838,6 +1865,7 @@ BOOL MY_LOAD_IMAGE(VOID)
 	return TRUE;
 }
 
+//画像を消す
 VOID MY_DELETE_IMAGE(VOID)
 {
 	//DeleteGraph(ImageBack.handle);
@@ -1863,6 +1891,7 @@ VOID MY_DELETE_IMAGE(VOID)
 	return;
 }
 
+//音楽を読み込む
 BOOL MY_LOAD_MUSIC(VOID)
 {
 	strcpy_s(START_BGM.path, MUSIC_START_BGM_PATH);
@@ -1908,6 +1937,7 @@ BOOL MY_LOAD_MUSIC(VOID)
 	return TRUE;
 }
 
+//音楽を消す
 VOID MY_DELETE_MUSIC(VOID)
 {
 	DeleteSoundMem(START_BGM.handle);
@@ -1920,6 +1950,8 @@ VOID MY_DELETE_MUSIC(VOID)
 	return;
 }
 
+//マップの判定
+//「壁」
 BOOL MY_CHECK_MAP1_PLAYER_COLL(RECT player)
 {
 	for (int tate = 0; tate <= GAME_MAP_TATE_MAX; tate++)
@@ -1928,6 +1960,7 @@ BOOL MY_CHECK_MAP1_PLAYER_COLL(RECT player)
 		{
 			if (MY_CHECK_RECT_COLL(player, mapColl[tate][yoko]) == TRUE)
 			{
+				//壁の判定
 				if (map[tate][yoko].kind == w) { return TRUE; }
 			}
 		}
